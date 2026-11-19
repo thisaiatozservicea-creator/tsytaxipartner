@@ -991,6 +991,12 @@ $("acceptTripBtn").addEventListener("click", async () => {
       acceptedAt: new Date().toISOString()
     });
 
+    // Mark partner as having active booking
+    await updateDoc(doc(db, "partners", currentPartner.id), {
+      hasActiveBooking: true,
+      activeBookingId: currentTripId
+    });
+
     alert("✓ Trip accepted! Customer has been notified.");
     $("tripRequest").classList.remove("show");
     // Keep currentTripId - trip is now active
@@ -1134,6 +1140,12 @@ $("endTripBtn").addEventListener("click", async () => {
       completedAt: new Date().toISOString()
     });
 
+    // Mark partner as available (no active booking)
+    await updateDoc(doc(db, "partners", currentPartner.id), {
+      hasActiveBooking: false,
+      activeBookingId: null
+    });
+
     $("activeTrip").classList.remove("show");
     currentTripId = null;
 
@@ -1243,7 +1255,9 @@ $("startBtn").addEventListener("click", async () => {
     await updateDoc(doc(db, "partners", currentPartner.id), {
       isOnline: false,
       offlineAt: serverTimestamp(),
-      currentLocation: null
+      currentLocation: null,
+      hasActiveBooking: false,
+      activeBookingId: null
     });
 
     $("startBtn").textContent = "🚗 Start Booking";
@@ -1687,7 +1701,9 @@ $("logoutBtn").addEventListener("click", async () => {
   if (isOnline) {
     await updateDoc(doc(db, "partners", currentPartner.id), {
       isOnline: false,
-      offlineAt: serverTimestamp()
+      offlineAt: serverTimestamp(),
+      hasActiveBooking: false,
+      activeBookingId: null
     });
   }
 
@@ -1700,7 +1716,7 @@ $("logoutBtn").addEventListener("click", async () => {
   // Clear saved session
   localStorage.removeItem("tsyPartnerSession");
 
-  window.location.href = "index.html";
+  window.location.href = "partner-login.html";
 });
 
 </script>
