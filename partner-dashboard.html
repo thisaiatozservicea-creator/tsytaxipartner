@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffc400">
+<title>TSY TAXI | Partner</title>
+
+<style>
+:root{--yellow:#ffc400;--ink:#111;--muted:#777;--green:#16834a;--red:#e34c38;--bg:#f5f5f7}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink)}
+body{min-height:100svh;background:var(--bg)}
+
+/* Top Navbar */
+.topbar{height:60px;background:#111;color:#fff;border-bottom:3px solid var(--yellow);display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:100}
+.brand-container{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:50%;object-fit:contain;background:#fff;padding:2px}
+.brand{font-size:16px;font-weight:950;letter-spacing:1px}
+.brand span{color:var(--yellow)}
+.nav-buttons{display:flex;align-items:center;gap:8px}
+.hours-btn{background:#e9e9e9;color:var(--ink);border:0;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer}
+.hours-btn:hover{background:#d4d4d4}
+.profile-btn{width:36px;height:36px;background:var(--yellow);border:0;border-radius:50%;font-size:18px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* Vehicle Card */
+.vehicle-card{background:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-radius:12px;box-shadow:0 2px 8px #0001}
+.vehicle-display{flex:1}
+.vehicle-label{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.vehicle-number{font-size:16px;font-weight:900;color:var(--ink);margin-top:2px}
+
+/* Sidebar */
+.sidebar{position:fixed;top:0;right:-100%;width:300px;height:100%;background:#fff;box-shadow:-2px 0 10px rgba(0,0,0,0.1);z-index:200;transition:right 0.3s;display:flex;flex-direction:column}
+.sidebar.open{right:0}
+.sidebar-header{background:#111;color:#fff;padding:20px;border-bottom:3px solid var(--yellow)}
+.sidebar-title h3{font-size:18px;margin-bottom:4px}
+.sidebar-title p{font-size:12px;color:var(--yellow)}
+/* Profile Card Screen */
+.profile-screen{display:none;padding:16px;padding-top:76px;min-height:100vh;background:var(--bg)}
+.profile-card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,0.08);max-width:500px;margin:0 auto;animation:slideUp 0.3s ease-out}
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.profile-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #e9e9e9}
+.profile-header h2{font-size:20px;display:flex;align-items:center;gap:8px}
+.profile-header h2::before{content:"👤";font-size:24px}
+.profile-actions{display:flex;gap:8px}
+.back-profile-btn{background:#e9e9e9;border:0;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:900;cursor:pointer}
+.back-profile-btn:hover{background:#d4d4d4}
+.edit-profile-btn{background:var(--yellow);border:0;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:900;cursor:pointer}
+.edit-profile-btn:hover{background:#d49c00}
+.profile-field{margin-bottom:16px}
+.profile-field label{display:block;font-size:11px;font-weight:900;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.profile-field input{width:100%;padding:12px;border:2px solid #e9e9e9;border-radius:8px;font-size:14px;background:#f9f9f9}
+.profile-field input:disabled{border-color:transparent;background:#f9f9f9;padding:12px;font-weight:700;color:var(--ink);cursor:default;opacity:1}
+.profile-field input:focus{outline:0;border-color:var(--yellow);background:#fff}
+.save-btn{background:var(--green);color:#fff;border:0;padding:14px;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer;width:100%;margin-top:16px}
+.save-btn:hover{background:#0e5a32}
+/* Revenue Stats */
+.revenue-summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.rev-stat{background:linear-gradient(135deg,#fff8d9,#fffdf3);border:1px solid #f2df9c;border-radius:12px;padding:16px;text-align:center}
+.rev-label{font-size:10px;color:#806000;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.rev-value{font-size:20px;font-weight:950;color:var(--ink)}
+/* Trip History */
+.date-group{margin-bottom:20px}
+.date-header{background:linear-gradient(135deg,#fff8d9 0%,#fffdf3 100%);border:1px solid #f2df9c;border-radius:10px;padding:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.date-header strong{font-size:13px;font-weight:900;color:var(--ink)}
+.date-header span{font-size:11px;color:var(--muted);font-weight:800}
+.trip-item{background:#fff;border:1px solid #e9e9e9;border-radius:12px;padding:14px;margin-bottom:12px}
+.trip-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.trip-date{font-size:11px;font-weight:900;color:var(--muted)}
+.trip-fare{font-size:16px;font-weight:950;color:var(--green)}
+.trip-detail{font-size:12px;color:var(--muted);margin:4px 0;display:flex;gap:8px}
+.trip-detail strong{color:var(--ink);font-weight:900;min-width:60px}
+.sidebar-menu{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1;overflow-y:auto}
+.menu-item{padding:14px 16px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between;background:#f9f9f9;border:0;width:100%;text-align:left;transition:background 0.2s}
+.menu-item:hover{background:#e9e9e9}
+.menu-item.revenue{background:#fff3e0;color:#ff9800}
+.sidebar-spacer{flex:1}
+.menu-item.logout{background:var(--red);color:#fff}
+.menu-item.logout:hover{background:#b81c1c}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199;display:none}
+.overlay.show{display:block}
+
+/* Login & Setup Screens */
+.screen{max-width:420px;margin:40px auto;background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px #0001}
+.screen h1{font-size:22px;margin-bottom:8px}
+.screen p{color:var(--muted);font-size:13px;margin-bottom:20px}
+
+/* Forms */
+label{display:block;font-size:11px;font-weight:900;color:var(--ink);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+input{width:100%;padding:12px;border:2px solid #e9e9e9;border-radius:8px;margin-bottom:14px;font-size:14px}
+input:focus{outline:0;border-color:var(--yellow)}
+
+button.btn-primary{background:var(--yellow);border:0;padding:12px;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer;width:100%}
+button.btn-primary:hover{background:#d49c00}
+button.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
+
+.message{font-size:12px;color:var(--green);margin-top:10px;text-align:center}
+.message.error{color:var(--red)}
+
+/* Home Dashboard */
+.home{padding:16px;display:none;padding-top:76px}
+.home.active{display:block}
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.stat-box{background:#fff;padding:16px;border-radius:12px;box-shadow:0 2px 8px #0001;text-align:center}
+.stat-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.stat-value{font-size:28px;font-weight:950;margin:8px 0}
+.stat-box.completed .stat-value{color:var(--green)}
+.stat-box.cancelled .stat-value{color:var(--red)}
+
+.start-btn{background:var(--green);color:#fff;border:0;padding:16px;border-radius:12px;font-weight:900;font-size:15px;cursor:pointer;width:100%;margin-bottom:20px;box-shadow:0 4px 12px rgba(22,131,74,0.3)}
+.start-btn:hover{background:#0e5a32}
+.start-btn.active{background:var(--red)}
+.start-btn.active:hover{background:#b81c1c}
+
+.badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:900}
+.badge.online{background:#e8f5e9;color:var(--green)}
+.badge.offline{background:#e9e9e9;color:var(--muted)}
+
+.status-card{background:#fff;padding:16px;border-radius:12px;margin-bottom:16px;box-shadow:0 2px 8px #0001}
+.status-card h3{font-size:16px;margin-bottom:12px}
+.status-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.status-row:last-child{border-bottom:0}
+.status-row span:first-child{font-size:12px;color:var(--muted)}
+.status-row span:last-child{font-size:13px;font-weight:700}
+
+.location-card{background:#e8f5e9;padding:16px;border-radius:12px;border:2px solid var(--green);box-shadow:0 2px 8px #0001;display:none}
+.location-card.show{display:block}
+.location-card h3{font-size:14px;margin-bottom:12px;color:var(--green);display:flex;align-items:center;gap:8px}
+.location-detail{font-size:12px;color:#333;margin:6px 0;display:flex;align-items:start;gap:8px}
+.location-detail strong{min-width:60px;color:var(--muted);font-size:11px}
+
+/* Trip Request */
+.trip-request{background:#fff3e0;border:3px solid #ff9800;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 4px 16px rgba(255,152,0,0.2);animation:pulse 2s ease-in-out infinite;display:none}
+.trip-request.show{display:block}
+@keyframes pulse{0%,100%{box-shadow:0 4px 16px rgba(255,152,0,0.2)}50%{box-shadow:0 4px 24px rgba(255,152,0,0.4)}}
+.trip-request h3{font-size:18px;margin-bottom:16px;color:#e67700;display:flex;align-items:center;gap:8px}
+.trip-info{background:#fff;border-radius:8px;padding:12px;margin-bottom:16px}
+.trip-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.trip-row:last-child{border-bottom:0}
+.trip-label{font-size:12px;color:var(--muted);font-weight:700}
+.trip-value{font-size:14px;font-weight:900}
+.trip-route{background:#fff;border-radius:8px;padding:12px;margin-bottom:16px}
+.trip-route-item{font-size:13px;margin:8px 0;display:flex;align-items:start;gap:8px}
+.trip-route-icon{font-size:16px;flex-shrink:0}
+.trip-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-accept{background:var(--green);color:#fff;border:0;padding:14px;border-radius:8px;font-weight:900;font-size:14px;cursor:pointer}
+.btn-accept:hover{background:#0e5a32}
+.btn-decline{background:var(--red);color:#fff;border:0;padding:14px;border-radius:8px;font-weight:900;font-size:14px;cursor:pointer}
+.btn-decline:hover{background:#b81c1c}
+
+/* Active Trip */
+.active-trip{background:#e8f5e9;border:2px solid var(--green);border-radius:12px;padding:20px;margin-bottom:20px;display:none}
+.active-trip.show{display:block}
+.active-trip h3{font-size:18px;margin-bottom:16px;color:var(--green)}
+.trip-status-badge{background:var(--yellow);color:var(--ink);padding:6px 12px;border-radius:12px;font-size:12px;font-weight:900;display:inline-block;margin-bottom:16px}
+.btn-arrived{background:#2196F3;color:#fff;border:0;padding:14px;border-radius:8px;font-weight:900;font-size:14px;cursor:pointer;width:100%;margin-bottom:12px}
+.btn-arrived:hover{background:#1976D2}
+.btn-end-trip{background:var(--red);color:#fff;border:0;padding:14px;border-radius:8px;font-weight:900;font-size:14px;cursor:pointer;width:100%}
+.btn-end-trip:hover{background:#b81c1c}
+
+@media(max-width:768px){
+  .topbar{height:56px;padding:0 12px}
+  .logo{width:32px;height:32px}
+  .brand{font-size:14px}
+  .nav-buttons{gap:6px}
+  .hours-btn{padding:4px 8px;font-size:10px}
+  .profile-btn{width:32px;height:32px;font-size:16px}
+  .sidebar{width:90%;max-width:300px}
+  .sidebar-header{padding:16px}
+  .sidebar-title h3{font-size:16px}
+  .screen{padding:20px;margin:30px auto}
+  .home{padding:12px;padding-top:68px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .profile-screen{padding:12px;padding-top:68px}
+  .location-card{padding:12px}
+  .location-card h3{font-size:13px}
+  .location-detail{font-size:11px}
+  .location-detail strong{min-width:50px;font-size:10px}
+
+  .trip-request{padding:16px}
+  .trip-request h3{font-size:16px}
+  .trip-info,.trip-route{padding:10px}
+  .trip-row{font-size:12px}
+  .trip-route-item{font-size:12px}
+  .trip-actions{gap:8px}
+  .btn-accept,.btn-decline{padding:12px;font-size:13px}
+
+  .active-trip{padding:16px}
+  .active-trip h3{font-size:16px}
+  .btn-arrived,.btn-end-trip{padding:12px;font-size:13px}
+
+  .profile-card{padding:20px}
+  .profile-header{flex-direction:column;align-items:start;gap:12px}
+  .profile-header h2{font-size:18px}
+  .profile-header h2::before{font-size:20px}
+  .profile-actions{width:100%;justify-content:space-between}
+  .back-profile-btn,.edit-profile-btn{flex:1}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Top Navbar (only for home) -->
+<div id="topbar" class="topbar" style="display:none">
+  <div class="brand-container">
+    <img src="logo.jpeg" alt="TSY Taxi logo" class="logo">
+    <div class="brand">TSY <span>TAXI</span></div>
+  </div>
+  <div class="nav-buttons">
+    <button class="hours-btn" id="hoursBtn">⏱ 0h 0m</button>
+    <button class="profile-btn" id="profileBtn">👤</button>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<div class="overlay" id="overlay"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">
+      <h3>Menu</h3>
+      <p>Partner Portal</p>
+      <div style="margin-top:8px;padding:8px;background:rgba(255,196,0,0.2);border-radius:6px">
+        <div style="font-size:10px;color:#ffc400;font-weight:700;margin-bottom:4px">LOGGED IN AS</div>
+        <div style="font-size:13px;font-weight:900;color:#fff" id="sidebarPartnerId">-</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-menu">
+    <button class="menu-item" id="profileMenuItem">
+      <span>👤 Profile</span>
+    </button>
+    <button class="menu-item revenue" id="totalRevenueBtn">
+      <span>💰 Total Revenue</span>
+      <span id="sidebarTotalRev">₹0</span>
+    </button>
+    <button class="menu-item revenue" id="todayRevenueBtn">
+      <span>📅 Today Revenue</span>
+      <span id="sidebarTodayRev">₹0</span>
+    </button>
+    <button class="menu-item" id="completedTripsBtn">
+      <span>✅ Completed Trips</span>
+      <span id="sidebarCompleted">0</span>
+    </button>
+    <button class="menu-item" id="cancelledTripsBtn">
+      <span>❌ Cancelled Trips</span>
+      <span id="sidebarCancelled">0</span>
+    </button>
+    <button class="menu-item" id="helpSupportBtn">
+      <span>❓ Help & Support</span>
+    </button>
+    <div class="sidebar-spacer"></div>
+    <button class="menu-item logout" id="logoutBtn">
+      <span>🚪 Logout</span>
+    </button>
+  </div>
+</div>
+
+<main>
+
+<!-- DETAILS SCREEN -->
+<div id="detailsScreen" class="screen" style="display:none">
+  <h1>Complete Your Profile</h1>
+  <p>Enter your details to continue.</p>
+
+  <label>Full Name</label>
+  <input id="partnerName" placeholder="Enter your full name">
+
+  <label>Phone Number</label>
+  <input id="partnerPhone" type="tel" placeholder="Enter phone number">
+
+  <label>Email Address (Optional)</label>
+  <input id="partnerEmail" type="email" placeholder="Enter email address">
+
+  <label>Vehicle Number <span style="font-size:10px;color:#e34c38">*</span></label>
+  <input id="vehicleNumber" placeholder="e.g., TN01AB1234" style="text-transform:uppercase">
+
+  <button class="btn-primary" id="saveDetailsBtn">Save & Continue</button>
+  <p id="detailsMessage" class="message"></p>
+</div>
+
+<!-- HOME SCREEN -->
+<div id="homeScreen" class="home">
+
+  <div class="vehicle-card">
+    <div class="vehicle-display">
+      <div class="vehicle-label">Vehicle</div>
+      <div class="vehicle-number" id="bottomVehicle">-</div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-box completed">
+      <div class="stat-label">Completed</div>
+      <div class="stat-value" id="completedTrips">0</div>
+    </div>
+    <div class="stat-box cancelled">
+      <div class="stat-label">Cancelled</div>
+      <div class="stat-value" id="cancelledTrips">0</div>
+    </div>
+  </div>
+
+  <!-- Trip Request Notification -->
+  <div class="trip-request" id="tripRequest">
+    <h3>🔔 New Trip Request!</h3>
+    <div class="trip-info">
+      <div class="trip-row">
+        <span class="trip-label">Distance</span>
+        <span class="trip-value" id="tripDistance">-</span>
+      </div>
+      <div class="trip-row">
+        <span class="trip-label">Fare</span>
+        <span class="trip-value" id="tripFare">₹0</span>
+      </div>
+      <div class="trip-row">
+        <span class="trip-label">Passenger</span>
+        <span class="trip-value" id="tripPassenger">-</span>
+      </div>
+    </div>
+    <div class="trip-route">
+      <div class="trip-route-item">
+        <span class="trip-route-icon">📍</span>
+        <div>
+          <strong>Pickup:</strong><br>
+          <span id="tripPickup">-</span>
+        </div>
+      </div>
+      <div class="trip-route-item">
+        <span class="trip-route-icon">🏁</span>
+        <div>
+          <strong>Drop:</strong><br>
+          <span id="tripDrop">-</span>
+        </div>
+      </div>
+    </div>
+    <div class="trip-actions">
+      <button class="btn-decline" id="declineTripBtn">✗ DECLINE</button>
+      <button class="btn-accept" id="acceptTripBtn">✓ ACCEPT</button>
+    </div>
+  </div>
+
+  <div class="status-card" id="statusCard" style="display:none">
+    <h3>You are Online</h3>
+    <div class="status-row">
+      <span>Status</span>
+      <span class="badge online" id="onlineBadge">● ONLINE</span>
+    </div>
+    <div class="status-row">
+      <span>Online Duration</span>
+      <span id="onlineDuration">0m</span>
+    </div>
+  </div>
+
+  <!-- Active Trip Card -->
+  <div class="active-trip" id="activeTrip">
+    <h3>🚗 Active Trip</h3>
+    <span class="trip-status-badge" id="activeTripStatus">IN PROGRESS</span>
+
+    <div class="trip-info">
+      <div class="trip-row">
+        <span class="trip-label">Passenger</span>
+        <span class="trip-value" id="activePassenger">-</span>
+      </div>
+      <div class="trip-row">
+        <span class="trip-label">Distance</span>
+        <span class="trip-value" id="activeDistance">-</span>
+      </div>
+      <div class="trip-row">
+        <span class="trip-label">Fare</span>
+        <span class="trip-value" id="activeFare">₹0</span>
+      </div>
+    </div>
+
+    <div class="trip-route">
+      <div class="trip-route-item">
+        <span class="trip-route-icon">📍</span>
+        <div>
+          <strong>Pickup:</strong><br>
+          <span id="activePickup">-</span>
+        </div>
+      </div>
+      <div class="trip-route-item">
+        <span class="trip-route-icon">🏁</span>
+        <div>
+          <strong>Drop:</strong><br>
+          <span id="activeDrop">-</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-arrived" id="arrivedBtn">📍 I HAVE ARRIVED</button>
+    <button class="btn-end-trip" id="endTripBtn">🏁 END TRIP</button>
+  </div>
+
+  <button class="start-btn" id="startBtn">🚗 Start Booking</button>
+
+  <div class="location-card" id="locationCard">
+    <h3>📍 Your Current Location</h3>
+    <div class="location-detail">
+      <strong>Address:</strong>
+      <span id="locationAddress">Getting location...</span>
+    </div>
+    <div class="location-detail">
+      <strong>Coords:</strong>
+      <span id="locationCoords">--</span>
+    </div>
+    <div class="location-detail">
+      <strong>Accuracy:</strong>
+      <span id="locationAccuracy">--</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- PROFILE SCREEN -->
+<div id="profileScreen" class="profile-screen">
+  <div class="profile-card">
+    <div class="profile-header">
+      <h2>My Profile</h2>
+      <div class="profile-actions">
+        <button class="back-profile-btn" id="backProfileBtn">← Back</button>
+        <button class="edit-profile-btn" id="editProfileBtn">Edit</button>
+      </div>
+    </div>
+
+    <div class="profile-field">
+      <label>Full Name</label>
+      <input type="text" id="profileName" disabled>
+    </div>
+    <div class="profile-field">
+      <label>Phone Number</label>
+      <input type="tel" id="profilePhone" disabled>
+    </div>
+    <div class="profile-field">
+      <label>Email Address</label>
+      <input type="email" id="profileEmail" disabled>
+    </div>
+    <div class="profile-field">
+      <label>Vehicle Number <span style="font-size:10px;color:#999;font-weight:400">(Contact admin to change)</span></label>
+      <input type="text" id="profileVehicle" disabled style="text-transform:uppercase">
+    </div>
+
+    <button class="save-btn" id="saveProfileBtn" style="display:none">Save Changes</button>
+  </div>
+</div>
+
+<!-- REVENUE SCREEN -->
+<div id="revenueScreen" class="profile-screen" style="display:none">
+  <div class="profile-card">
+    <div class="profile-header">
+      <h2 id="revenueTitle">Revenue Details</h2>
+      <button class="back-profile-btn" id="backRevenueBtn">← Back</button>
+    </div>
+
+    <div class="revenue-summary">
+      <div class="rev-stat">
+        <div class="rev-label">Total Earnings</div>
+        <div class="rev-value" id="revTotalEarnings">₹0</div>
+      </div>
+      <div class="rev-stat">
+        <div class="rev-label">Total Trips</div>
+        <div class="rev-value" id="revTotalTrips">0</div>
+      </div>
+      <div class="rev-stat">
+        <div class="rev-label">Total Distance</div>
+        <div class="rev-value" id="revTotalDistance">0 km</div>
+      </div>
+      <div class="rev-stat">
+        <div class="rev-label">Total Hours</div>
+        <div class="rev-value" id="revTotalHours">0h 0m</div>
+      </div>
+    </div>
+
+    <h3 style="margin:20px 0 10px;font-size:16px">Trip History</h3>
+    <div id="tripHistoryList"></div>
+  </div>
+</div>
+
+<!-- HELP & SUPPORT SCREEN -->
+<div id="helpScreen" class="profile-screen" style="display:none">
+  <div class="profile-card">
+    <div class="profile-header">
+      <h2>Help & Support</h2>
+      <button class="back-profile-btn" id="backHelpBtn">← Back</button>
+    </div>
+
+    <div style="padding:16px 0">
+      <div style="background:#e8f5e9;border-left:4px solid var(--green);padding:16px;border-radius:8px;margin-bottom:20px">
+        <h3 style="font-size:16px;margin-bottom:8px;color:var(--green)">📞 Contact Support</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6">
+          For any issues or questions, please contact our support team.
+        </p>
+        <div style="margin-top:12px">
+          <p style="font-size:14px;margin:8px 0"><strong>Phone:</strong> <a href="tel:+918459075088" style="color:var(--green);text-decoration:none;font-weight:900">+91 8459075088</a></p>
+          <p style="font-size:14px;margin:8px 0"><strong>Email:</strong> <a href="mailto:support@tsytaxi.com" style="color:var(--green);text-decoration:none;font-weight:900">support@tsytaxi.com</a></p>
+          <p style="font-size:14px;margin:8px 0"><strong>Hours:</strong> 24/7 Available</p>
+        </div>
+      </div>
+
+      <h3 style="font-size:16px;margin:24px 0 12px">📚 How to Use</h3>
+
+      <div style="background:#f9f9f9;border-radius:8px;padding:14px;margin-bottom:12px">
+        <h4 style="font-size:14px;font-weight:900;margin-bottom:6px">1. Go Online</h4>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5">Click "Start Booking" button to go online. Your GPS location will be captured and you'll be visible to customers.</p>
+      </div>
+
+      <div style="background:#f9f9f9;border-radius:8px;padding:14px;margin-bottom:12px">
+        <h4 style="font-size:14px;font-weight:900;margin-bottom:6px">2. Accept Trip Requests</h4>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5">When a customer books a ride and admin assigns you, you'll see an orange notification with trip details. Click "ACCEPT" to start the trip.</p>
+      </div>
+
+      <div style="background:#f9f9f9;border-radius:8px;padding:14px;margin-bottom:12px">
+        <h4 style="font-size:14px;font-weight:900;margin-bottom:6px">3. Pickup Customer</h4>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5">Drive to pickup location. Click "I HAVE ARRIVED" when you reach. Customer will be notified.</p>
+      </div>
+
+      <div style="background:#f9f9f9;border-radius:8px;padding:14px;margin-bottom:12px">
+        <h4 style="font-size:14px;font-weight:900;margin-bottom:6px">4. Complete Trip</h4>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5">After reaching destination, click "END TRIP". Payment will be added to your revenue.</p>
+      </div>
+
+      <div style="background:#f9f9f9;border-radius:8px;padding:14px;margin-bottom:12px">
+        <h4 style="font-size:14px;font-weight:900;margin-bottom:6px">5. Track Revenue</h4>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5">Click "Total Revenue" or "Today Revenue" in menu to see your earnings and trip history.</p>
+      </div>
+
+      <h3 style="font-size:16px;margin:24px 0 12px">⚠️ Important Notes</h3>
+      <ul style="padding-left:20px;margin:0">
+        <li style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:8px">Keep GPS/Location enabled at all times</li>
+        <li style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:8px">Update your vehicle number if changed</li>
+        <li style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:8px">Be polite and professional with customers</li>
+        <li style="font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:8px">Contact support for payment issues</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getFirestore, collection, doc, getDoc, getDocs, updateDoc, setDoc, onSnapshot, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDg1rboXdFIWnyxH3nw3NV0UGk8vDOzUJc",
+  authDomain: "tsytaxi-7e9b0.firebaseapp.com",
+  projectId: "tsytaxi-7e9b0",
+  storageBucket: "tsytaxi-7e9b0.firebasestorage.app",
+  messagingSenderId: "37450943469",
+  appId: "1:37450943469:web:4b9208836bb01c715835e4",
+  measurementId: "G-B4GC760R0C"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const $ = id => document.getElementById(id);
+
+let currentPartner = null;
+let isOnline = false;
+let onlineStartTime = null;
+let durationInterval = null;
+let loginStartTime = null;
+let totalHoursInterval = null;
+let partnerListener = null; // Real-time partner profile listener
+let locationUpdateInterval = null; // Location update interval
+
+// SESSION CHECK - Redirect to login if no session
+(async function checkSession() {
+  const savedSession = localStorage.getItem("tsyPartnerSession");
+
+  if (!savedSession) {
+    window.location.replace("partner-login.html");
+    return;
+  }
+
+  try {
+    const { partnerId } = JSON.parse(savedSession);
+
+    // Verify partner still exists and is active in Firestore
+    const partnerDoc = await getDoc(doc(db, "partners", partnerId));
+
+    if (!partnerDoc.exists()) {
+      localStorage.removeItem("tsyPartnerSession");
+      window.location.replace("partner-login.html");
+      return;
+    }
+
+    const dbData = partnerDoc.data();
+
+    // Check if account is blocked
+    if (dbData.active === false) {
+      localStorage.removeItem("tsyPartnerSession");
+      window.location.replace("partner-login.html");
+      return;
+    }
+
+    // Session valid - load partner data
+    currentPartner = { ...dbData, id: partnerDoc.id };
+    console.log("✓ Session valid:", currentPartner.partnerId);
+
+    // Display logged-in partner ID
+    if ($("sidebarPartnerId")) {
+      $("sidebarPartnerId").textContent = currentPartner.partnerId;
+    }
+
+    // Start real-time partner profile listener
+    startPartnerListener();
+
+    // Check if details already filled, show appropriate screen
+    if (currentPartner.name && currentPartner.phone && currentPartner.vehicleNumber) {
+      showHome();
+    } else {
+      $("detailsScreen").style.display = "block";
+      if (currentPartner.name) $("partnerName").value = currentPartner.name;
+      if (currentPartner.phone) $("partnerPhone").value = currentPartner.phone;
+      if (currentPartner.email) $("partnerEmail").value = currentPartner.email;
+      if (currentPartner.vehicleNumber) $("vehicleNumber").value = currentPartner.vehicleNumber;
+    }
+
+  } catch (error) {
+    console.error("Session check failed:", error);
+    localStorage.removeItem("tsyPartnerSession");
+    window.location.replace("partner-login.html");
+  }
+})();
+
+// SAVE DETAILS
+$("saveDetailsBtn").addEventListener("click", async () => {
+  const name = $("partnerName").value.trim();
+  const phone = $("partnerPhone").value.trim();
+  const email = $("partnerEmail").value.trim();
+  const vehicle = $("vehicleNumber").value.trim().toUpperCase();
+
+  if (!name || !phone || !vehicle) {
+    $("detailsMessage").textContent = "Fill required fields (name, phone, vehicle).";
+    $("detailsMessage").className = "message error";
+    return;
+  }
+
+  $("saveDetailsBtn").disabled = true;
+  $("detailsMessage").textContent = "Saving...";
+  $("detailsMessage").className = "message";
+
+  try {
+    await updateDoc(doc(db, "partners", currentPartner.id), {
+      name,
+      phone,
+      email: email || "",
+      vehicleNumber: vehicle,
+      detailsCompletedAt: serverTimestamp()
+    });
+
+    currentPartner.name = name;
+    currentPartner.phone = phone;
+    currentPartner.email = email;
+    currentPartner.vehicleNumber = vehicle;
+
+    $("detailsMessage").textContent = "Details saved!";
+    $("detailsMessage").className = "message";
+
+    setTimeout(() => {
+      $("detailsScreen").style.display = "none";
+      showHome();
+    }, 500);
+
+  } catch (error) {
+    $("detailsMessage").textContent = "Error: " + error.message;
+    $("detailsMessage").className = "message error";
+  } finally {
+    $("saveDetailsBtn").disabled = false;
+  }
+});
+
+// SHOW HOME
+function showHome() {
+  $("topbar").style.display = "flex";
+  $("homeScreen").classList.add("active");
+
+  $("bottomVehicle").textContent = currentPartner.vehicleNumber || "Not assigned";
+
+  // Load profile data
+  loadProfileData();
+
+  // Sync online status from Firestore
+  if (currentPartner.isOnline) {
+    isOnline = true;
+    onlineStartTime = currentPartner.onlineStartTime || Date.now();
+    $("startBtn").textContent = "🛑 Stop Booking";
+    $("startBtn").classList.add("active");
+    $("statusCard").style.display = "block";
+    $("onlineBadge").textContent = "● ONLINE";
+    $("locationCard").classList.add("show");
+
+    // Show location if available
+    if (currentPartner.currentLocation) {
+      $("locationCoords").textContent = `${currentPartner.currentLocation.latitude.toFixed(6)}, ${currentPartner.currentLocation.longitude.toFixed(6)}`;
+      $("locationAccuracy").textContent = `±${Math.round(currentPartner.currentLocation.accuracy)}m`;
+      $("locationAddress").textContent = "Location tracked";
+    }
+
+    startDurationCounter();
+  } else {
+    isOnline = false;
+    $("startBtn").textContent = "🚗 Start Booking";
+    $("startBtn").classList.remove("active");
+    $("statusCard").style.display = "none";
+    $("locationCard").classList.remove("show");
+  }
+
+  // Start login hours counter
+  loginStartTime = Date.now();
+  startTotalHoursCounter();
+
+  startTripListener();
+}
+
+// LOAD PROFILE DATA
+function loadProfileData() {
+  $("profileName").value = currentPartner.name || "";
+  $("profilePhone").value = currentPartner.phone || "";
+  $("profileEmail").value = currentPartner.email || "";
+  $("profileVehicle").value = currentPartner.vehicleNumber || "";
+}
+
+// TOTAL LOGIN HOURS COUNTER
+function startTotalHoursCounter() {
+  updateTotalHours();
+  totalHoursInterval = setInterval(updateTotalHours, 60000); // Update every minute
+}
+
+function updateTotalHours() {
+  if (!loginStartTime) return;
+  const minutes = Math.floor((Date.now() - loginStartTime) / 60000);
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  $("hoursBtn").textContent = `⏱ ${hours}h ${mins}m`;
+}
+
+// LOAD STATS
+let bookingsDB = null; // Global reference to bookings database
+let statsListener = null; // Real-time stats listener
+
+async function startStatsListener() {
+  if (!bookingsDB || !currentPartner) return;
+
+  // Stop existing listener if any
+  if (statsListener) {
+    statsListener();
+    statsListener = null;
+  }
+
+  try {
+    const { collection, query, where, onSnapshot } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+
+    // Listen to trips collection for completed trip stats
+    const tripsRef = collection(bookingsDB, "trips");
+    const q = query(tripsRef, where("partnerId", "==", currentPartner.partnerId));
+
+    // Real-time listener for stats
+    statsListener = onSnapshot(q, (snapshot) => {
+      let totalRevenue = 0;
+      let todayRevenue = 0;
+      let completedCount = 0;
+
+      const today = new Date().toDateString();
+
+      snapshot.forEach(doc => {
+        const trip = doc.data();
+
+        completedCount++;
+        totalRevenue += trip.fare || 0;
+
+        const completedDate = new Date(trip.completedAt || trip.createdAt);
+        if (completedDate.toDateString() === today) {
+          todayRevenue += trip.fare || 0;
+        }
+      });
+
+      // Count cancelled trips from bookings
+      const bookingsRef = collection(bookingsDB, "bookings");
+      const cancelledQuery = query(bookingsRef,
+        where("partnerId", "==", currentPartner.partnerId),
+        where("status", "==", "CANCELLED")
+      );
+
+      onSnapshot(cancelledQuery, (cancelSnapshot) => {
+        const cancelledCount = cancelSnapshot.size;
+        $("cancelledTrips").textContent = cancelledCount;
+        $("sidebarCancelled").textContent = cancelledCount;
+      });
+
+      // Update UI in real-time
+      $("completedTrips").textContent = completedCount;
+      $("sidebarTotalRev").textContent = "₹" + totalRevenue.toFixed(2);
+      $("sidebarTodayRev").textContent = "₹" + todayRevenue.toFixed(2);
+      $("sidebarCompleted").textContent = completedCount;
+
+      console.log("✓ Stats updated:", { totalRevenue, todayRevenue, completedCount });
+    });
+
+  } catch (error) {
+    console.error("Error starting stats listener:", error);
+  }
+}
+
+// PARTNER PROFILE LISTENER - Real-time updates from tsytaxi-7e9b0
+async function startPartnerListener() {
+  if (!currentPartner) return;
+
+  // Stop existing listener if any
+  if (partnerListener) {
+    partnerListener();
+    partnerListener = null;
+  }
+
+  try {
+    const partnerDocRef = doc(db, "partners", currentPartner.id);
+
+    // Real-time listener for partner profile
+    partnerListener = onSnapshot(partnerDocRef, (docSnapshot) => {
+      if (!docSnapshot.exists()) {
+        // Partner deleted - logout
+        localStorage.removeItem("tsyPartnerSession");
+        window.location.replace("partner-login.html");
+        return;
+      }
+
+      const data = docSnapshot.data();
+
+      // Check if account blocked
+      if (data.active === false) {
+        localStorage.removeItem("tsyPartnerSession");
+        window.location.replace("partner-login.html");
+        return;
+      }
+
+      // Update currentPartner object
+      currentPartner = { ...data, id: docSnapshot.id };
+
+      // Sync online status with Firestore
+      if (currentPartner.isOnline && !isOnline) {
+        // Partner went online (possibly from another device/session)
+        isOnline = true;
+        onlineStartTime = currentPartner.onlineStartTime || Date.now();
+        $("startBtn").textContent = "🛑 Stop Booking";
+        $("startBtn").classList.add("active");
+        $("statusCard").style.display = "block";
+        $("onlineBadge").textContent = "● ONLINE";
+        startDurationCounter();
+      } else if (!currentPartner.isOnline && isOnline) {
+        // Partner went offline (possibly from another device/session)
+        isOnline = false;
+        $("startBtn").textContent = "🚗 Start Booking";
+        $("startBtn").classList.remove("active");
+        $("statusCard").style.display = "none";
+        $("locationCard").classList.remove("show");
+        stopDurationCounter();
+      }
+
+      // Update UI in real-time
+      loadProfileData();
+      if ($("bottomVehicle")) {
+        $("bottomVehicle").textContent = currentPartner.vehicleNumber || "Not assigned";
+      }
+
+      console.log("✓ Partner profile updated:", currentPartner.partnerId);
+    });
+
+  } catch (error) {
+    console.error("Error starting partner listener:", error);
+  }
+}
+
+// TRIP LISTENER
+let currentTripId = null;
+let tripListener = null;
+
+async function startTripListener() {
+  // Connect to bookings database
+  const bookingsConfig = {
+    apiKey: "AIzaSyBwd7gY4QG96MKI-At38eXMVF-pQQU0F-s",
+    authDomain: "tsytaxi-fcbd3.firebaseapp.com",
+    projectId: "tsytaxi-fcbd3",
+    storageBucket: "tsytaxi-fcbd3.firebasestorage.app",
+    messagingSenderId: "160017935162",
+    appId: "1:160017935162:web:3574d6e57febf56c5bfe03"
+  };
+
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js");
+  const { getFirestore, collection, query, where, onSnapshot } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+
+  const bookingsApp = initializeApp(bookingsConfig, "bookingsApp");
+  const bookingsDb = getFirestore(bookingsApp);
+  bookingsDB = bookingsDb; // Set global reference
+
+  // Start real-time stats listener
+  await startStatsListener();
+
+  // Listen for all active bookings for this partner
+  const bookingsRef = collection(bookingsDb, "bookings");
+  const q = query(bookingsRef,
+    where("partnerId", "==", currentPartner.partnerId)
+  );
+
+  tripListener = onSnapshot(q, (snapshot) => {
+    // Find assigned booking (new request)
+    const assignedBooking = snapshot.docs.find(doc => doc.data().status === "ASSIGNED");
+
+    // Find accepted/in-progress booking (active trip)
+    const activeBooking = snapshot.docs.find(doc =>
+      doc.data().status === "ACCEPTED" || doc.data().status === "IN_PROGRESS"
+    );
+
+    // Show trip request for assigned bookings
+    if (assignedBooking) {
+      const booking = assignedBooking.data();
+      currentTripId = assignedBooking.id;
+
+      $("tripDistance").textContent = booking.distanceKm.toFixed(2) + " km";
+      $("tripFare").textContent = "₹" + booking.fare.toFixed(2);
+      $("tripPassenger").textContent = booking.passenger?.name || "Customer";
+      $("tripPickup").textContent = booking.pickup?.area || booking.pickup?.displayName || "Pickup location";
+      $("tripDrop").textContent = booking.destination?.area || booking.destination?.displayName || "Drop location";
+
+      $("tripRequest").classList.add("show");
+      $("activeTrip").classList.remove("show");
+    }
+    // Show active trip for accepted bookings
+    else if (activeBooking) {
+      const booking = activeBooking.data();
+      currentTripId = activeBooking.id;
+
+      $("activePassenger").textContent = booking.passenger?.name || "Customer";
+      $("activeDistance").textContent = booking.distanceKm.toFixed(2) + " km";
+      $("activeFare").textContent = "₹" + booking.fare.toFixed(2);
+      $("activePickup").textContent = booking.pickup?.area || booking.pickup?.displayName || "Pickup location";
+      $("activeDrop").textContent = booking.destination?.area || booking.destination?.displayName || "Drop location";
+
+      if (booking.status === "ACCEPTED") {
+        $("activeTripStatus").textContent = "GOING TO PICKUP";
+        $("arrivedBtn").style.display = "block";
+      } else if (booking.status === "IN_PROGRESS") {
+        $("activeTripStatus").textContent = "TRIP IN PROGRESS";
+        $("arrivedBtn").style.display = "none";
+      }
+
+      $("tripRequest").classList.remove("show");
+      $("activeTrip").classList.add("show");
+    }
+    // No active booking
+    else {
+      $("tripRequest").classList.remove("show");
+      $("activeTrip").classList.remove("show");
+      currentTripId = null;
+    }
+  });
+}
+
+// ACCEPT TRIP
+$("acceptTripBtn").addEventListener("click", async () => {
+  if (!currentTripId) return;
+
+  $("acceptTripBtn").disabled = true;
+  $("acceptTripBtn").textContent = "Accepting...";
+
+  try {
+    // Use bookingsDB if available, otherwise initialize
+    let db = bookingsDB;
+    if (!db) {
+      const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js");
+      const { getFirestore } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+      const bookingsConfig = {
+        apiKey: "AIzaSyBwd7gY4QG96MKI-At38eXMVF-pQQU0F-s",
+        authDomain: "tsytaxi-fcbd3.firebaseapp.com",
+        projectId: "tsytaxi-fcbd3"
+      };
+      const app = initializeApp(bookingsConfig, "bookingsAppAccept");
+      db = getFirestore(app);
+    }
+
+    const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+
+    await updateDoc(doc(db, "bookings", currentTripId), {
+      status: "ACCEPTED",
+      acceptedAt: new Date().toISOString()
+    });
+
+    alert("✓ Trip accepted! Customer has been notified.");
+    $("tripRequest").classList.remove("show");
+    // Keep currentTripId - trip is now active
+
+  } catch (error) {
+    console.error("Accept error:", error);
+    alert("Failed to accept trip: " + error.message);
+  } finally {
+    $("acceptTripBtn").disabled = false;
+    $("acceptTripBtn").textContent = "✓ ACCEPT";
+  }
+});
+
+// DECLINE TRIP
+$("declineTripBtn").addEventListener("click", async () => {
+  if (!currentTripId) return;
+  if (!confirm("Decline this trip?")) return;
+
+  $("declineTripBtn").disabled = true;
+  $("declineTripBtn").textContent = "Declining...";
+
+  try {
+    // Use bookingsDB if available, otherwise initialize
+    let db = bookingsDB;
+    if (!db) {
+      const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js");
+      const { getFirestore } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+      const bookingsConfig = {
+        apiKey: "AIzaSyBwd7gY4QG96MKI-At38eXMVF-pQQU0F-s",
+        authDomain: "tsytaxi-fcbd3.firebaseapp.com",
+        projectId: "tsytaxi-fcbd3"
+      };
+      const app = initializeApp(bookingsConfig, "bookingsAppDecline");
+      db = getFirestore(app);
+    }
+
+    const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+
+    await updateDoc(doc(db, "bookings", currentTripId), {
+      status: "CANCELLED",
+      cancelledBy: "partner",
+      cancelledAt: new Date().toISOString()
+    });
+
+    alert("Trip declined.");
+    $("tripRequest").classList.remove("show");
+    currentTripId = null; // Clear after decline
+
+  } catch (error) {
+    console.error("Decline error:", error);
+    alert("Failed to decline trip: " + error.message);
+  } finally {
+    $("declineTripBtn").disabled = false;
+    $("declineTripBtn").textContent = "✗ DECLINE";
+  }
+});
+
+// ARRIVED AT PICKUP
+$("arrivedBtn").addEventListener("click", async () => {
+  if (!currentTripId) return;
+  if (!confirm("Confirm you have arrived at pickup location?")) return;
+
+  $("arrivedBtn").disabled = true;
+  $("arrivedBtn").textContent = "Updating...";
+
+  try {
+    // Use bookingsDB if available, otherwise initialize
+    let db = bookingsDB;
+    if (!db) {
+      const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js");
+      const { getFirestore } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+      const bookingsConfig = {
+        apiKey: "AIzaSyBwd7gY4QG96MKI-At38eXMVF-pQQU0F-s",
+        authDomain: "tsytaxi-fcbd3.firebaseapp.com",
+        projectId: "tsytaxi-fcbd3"
+      };
+      const app = initializeApp(bookingsConfig, "bookingsAppArrive");
+      db = getFirestore(app);
+    }
+
+    const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+
+    await updateDoc(doc(db, "bookings", currentTripId), {
+      status: "IN_PROGRESS",
+      arrivedAt: new Date().toISOString()
+    });
+
+    alert("✓ Trip started! Customer has been notified.");
+
+  } catch (error) {
+    console.error("Arrived error:", error);
+    alert("Failed to update: " + error.message);
+  } finally {
+    $("arrivedBtn").disabled = false;
+    $("arrivedBtn").textContent = "📍 I HAVE ARRIVED";
+  }
+});
+
+// END TRIP
+$("endTripBtn").addEventListener("click", async () => {
+  if (!currentTripId) return;
+  if (!confirm("End this trip and mark as completed?")) return;
+
+  $("endTripBtn").disabled = true;
+  $("endTripBtn").textContent = "Completing...";
+
+  try {
+    // Use bookingsDB if available, otherwise initialize
+    let db = bookingsDB;
+    if (!db) {
+      const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js");
+      const { getFirestore } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+      const bookingsConfig = {
+        apiKey: "AIzaSyBwd7gY4QG96MKI-At38eXMVF-pQQU0F-s",
+        authDomain: "tsytaxi-fcbd3.firebaseapp.com",
+        projectId: "tsytaxi-fcbd3"
+      };
+      const app = initializeApp(bookingsConfig, "bookingsAppEnd");
+      db = getFirestore(app);
+    }
+
+    const { doc, updateDoc, getDoc, setDoc, collection } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+
+    // Get booking data before updating
+    const bookingDoc = await getDoc(doc(db, "bookings", currentTripId));
+    const bookingData = bookingDoc.data();
+
+    // Save to trips collection for history
+    const tripData = {
+      ...bookingData,
+      status: "COMPLETED",
+      completedAt: new Date().toISOString()
+    };
+
+    await setDoc(doc(collection(db, "trips"), currentTripId), tripData);
+    console.log("✓ Trip saved to history");
+
+    // Update booking status (will be auto-deleted by admin)
+    await updateDoc(doc(db, "bookings", currentTripId), {
+      status: "COMPLETED",
+      completedAt: new Date().toISOString()
+    });
+
+    $("activeTrip").classList.remove("show");
+    currentTripId = null;
+
+    alert("✓ Trip completed! Thank you.\n\nYou are still ONLINE and available for new bookings.");
+
+  } catch (error) {
+    console.error("Complete error:", error);
+    alert("Failed to complete trip: " + error.message);
+  } finally {
+    $("endTripBtn").disabled = false;
+    $("endTripBtn").textContent = "🏁 END TRIP";
+  }
+});
+
+// GET GPS LOCATION
+async function getCurrentLocation() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("GPS not supported"));
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      position => resolve(position),
+      error => reject(error),
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  });
+}
+
+// REVERSE GEOCODE (Get address from coordinates)
+async function getAddressFromCoords(lat, lon) {
+  try {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=en`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.display_name || "Address not found";
+  } catch (error) {
+    console.error("Geocoding error:", error);
+    return "Unable to fetch address";
+  }
+}
+
+// UPDATE LOCATION DISPLAY
+async function updateLocationDisplay(lat, lon, accuracy) {
+  $("locationCard").classList.add("show");
+  $("locationCoords").textContent = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+  $("locationAccuracy").textContent = `±${Math.round(accuracy)}m`;
+
+  $("locationAddress").textContent = "Fetching address...";
+  const address = await getAddressFromCoords(lat, lon);
+  $("locationAddress").textContent = address;
+}
+
+// START/STOP BOOKING
+$("startBtn").addEventListener("click", async () => {
+  if (!isOnline) {
+    // Go online
+    $("startBtn").disabled = true;
+    $("startBtn").textContent = "Getting Location...";
+
+    try {
+      // Get GPS location
+      const position = await getCurrentLocation();
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const accuracy = position.coords.accuracy;
+
+      isOnline = true;
+      onlineStartTime = Date.now();
+
+      // Save to Firestore
+      await updateDoc(doc(db, "partners", currentPartner.id), {
+        isOnline: true,
+        onlineAt: serverTimestamp(),
+        onlineStartTime: onlineStartTime,
+        currentLocation: {
+          latitude: lat,
+          longitude: lon,
+          accuracy: accuracy,
+          timestamp: new Date().toISOString()
+        }
+      });
+
+      // Update UI
+      $("startBtn").textContent = "🛑 Stop Booking";
+      $("startBtn").classList.add("active");
+      $("statusCard").style.display = "block";
+      $("onlineBadge").textContent = "● ONLINE";
+
+      // Show location
+      await updateLocationDisplay(lat, lon, accuracy);
+
+      startDurationCounter();
+
+    } catch (error) {
+      alert("Failed to get location: " + error.message);
+      isOnline = false;
+    } finally {
+      $("startBtn").disabled = false;
+    }
+
+  } else {
+    // Go offline
+    isOnline = false;
+
+    await updateDoc(doc(db, "partners", currentPartner.id), {
+      isOnline: false,
+      offlineAt: serverTimestamp(),
+      currentLocation: null
+    });
+
+    $("startBtn").textContent = "🚗 Start Booking";
+    $("startBtn").classList.remove("active");
+    $("statusCard").style.display = "none";
+    $("locationCard").classList.remove("show");
+
+    stopDurationCounter();
+  }
+});
+
+function startDurationCounter() {
+  durationInterval = setInterval(() => {
+    const minutes = Math.floor((Date.now() - onlineStartTime) / 60000);
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+
+    if (hours > 0) {
+      $("onlineDuration").textContent = `${hours}h ${mins}m`;
+    } else {
+      $("onlineDuration").textContent = `${mins}m`;
+    }
+  }, 1000);
+}
+
+function stopDurationCounter() {
+  if (durationInterval) {
+    clearInterval(durationInterval);
+    durationInterval = null;
+  }
+}
+
+// UPDATE LOCATION PERIODICALLY
+async function updateLocationPeriodically() {
+  if (!isOnline || !currentPartner) return;
+
+  try {
+    const position = await getCurrentLocation();
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const accuracy = position.coords.accuracy;
+
+    // Update Firestore with new location
+    await updateDoc(doc(db, "partners", currentPartner.id), {
+      currentLocation: {
+        latitude: lat,
+        longitude: lon,
+        accuracy: accuracy,
+        timestamp: new Date().toISOString()
+      }
+    });
+
+    // Update display
+    await updateLocationDisplay(lat, lon, accuracy);
+    console.log("📍 Location updated:", lat.toFixed(6), lon.toFixed(6));
+
+  } catch (error) {
+    console.error("Location update error:", error);
+  }
+}
+
+function startLocationUpdates() {
+  // Update immediately
+  updateLocationPeriodically();
+
+  // Then update every 10 seconds
+  locationUpdateInterval = setInterval(updateLocationPeriodically, 10000);
+}
+
+function stopLocationUpdates() {
+  if (locationUpdateInterval) {
+    clearInterval(locationUpdateInterval);
+    locationUpdateInterval = null;
+  }
+}
+
+// SIDEBAR
+$("profileBtn").addEventListener("click", () => {
+  $("sidebar").classList.add("open");
+  $("overlay").classList.add("show");
+});
+
+$("overlay").addEventListener("click", () => {
+  $("sidebar").classList.remove("open");
+  $("overlay").classList.remove("show");
+});
+
+// PROFILE MENU ITEM - OPEN PROFILE SCREEN
+$("profileMenuItem").addEventListener("click", () => {
+  // Close sidebar
+  $("sidebar").classList.remove("open");
+  $("overlay").classList.remove("show");
+
+  // Show profile screen
+  loadProfileData();
+  $("homeScreen").style.display = "none";
+  $("profileScreen").style.display = "block";
+});
+
+// BACK TO HOME FROM PROFILE
+$("backProfileBtn").addEventListener("click", () => {
+  cancelEdit();
+  $("profileScreen").style.display = "none";
+  $("homeScreen").style.display = "block";
+});
+
+// MENU ITEM HANDLERS
+// Total Revenue
+$("totalRevenueBtn").addEventListener("click", () => {
+  $("sidebar").classList.remove("open");
+  $("overlay").classList.remove("show");
+  $("homeScreen").style.display = "none";
+  $("profileScreen").style.display = "none";
+  $("helpScreen").style.display = "none";
+
+  // Show revenue summary stats
+  document.querySelector(".revenue-summary").style.display = "grid";
+
+  showRevenue("total");
+  $("revenueScreen").style.display = "block";
+});
+
+// Today Revenue
+$("todayRevenueBtn").addEventListener("click", () => {
+  $("sidebar").classList.remove("open");
+  $("overlay").classList.remove("show");
+  $("homeScreen").style.display = "none";
+  $("profileScreen").style.display = "none";
+  $("helpScreen").style.display = "none";
+
+  // Show revenue summary stats
+  document.querySelector(".revenue-summary").style.display = "grid";
+
+  showRevenue("today");
+  $("revenueScreen").style.display = "block";
+});
+
+// Completed Trips (trips only, no stats)
+$("completedTripsBtn").addEventListener("click", () => {
+  $("sidebar").classList.remove("open");
+  $("overlay").classList.remove("show");
+  $("homeScreen").style.display = "none";
+  $("profileScreen").style.display = "none";
+  $("helpScreen").style.display = "none";
+  $("revenueTitle").textContent = "Completed Trips";
+
+  // Hide revenue summary stats
+  document.querySelector(".revenue-summary").style.display = "none";
+
+  showRevenue("total");
+  $("revenueScreen").style.display = "block";
+});
+
+// Cancelled Trips
+$("cancelledTripsBtn").addEventListener("click", () => {
+  $("sidebar").classList.remove("open");
+  $("overlay").classList.remove("show");
+  $("homeScreen").style.display = "none";
+  $("profileScreen").style.display = "none";
+  $("helpScreen").style.display = "none";
+  $("revenueTitle").textContent = "Cancelled Trips";
+
+  // Hide revenue summary stats
+  document.querySelector(".revenue-summary").style.display = "none";
+
+  showCancelledTrips();
+  $("revenueScreen").style.display = "block";
+});
+
+// Help & Support
+$("helpSupportBtn").addEventListener("click", () => {
+  $("sidebar").classList.remove("open");
+  $("overlay").classList.remove("show");
+  $("homeScreen").style.display = "none";
+  $("profileScreen").style.display = "none";
+  $("revenueScreen").style.display = "none";
+  $("helpScreen").style.display = "block";
+});
+
+// BACK BUTTONS
+$("backRevenueBtn").addEventListener("click", () => {
+  $("revenueScreen").style.display = "none";
+  $("homeScreen").style.display = "block";
+});
+
+$("backHelpBtn").addEventListener("click", () => {
+  $("helpScreen").style.display = "none";
+  $("homeScreen").style.display = "block";
+});
+
+// Show revenue details
+async function showRevenue(type) {
+  const title = type === "total" ? "Total Revenue" : "Today's Revenue";
+  $("revenueTitle").textContent = title;
+
+  try {
+    // Read from trips collection (completed trip history)
+    const tripsRef = collection(bookingsDB, "trips");
+    const q = query(tripsRef,
+      where("partnerId", "==", currentPartner.partnerId)
+    );
+
+    const snapshot = await getDocs(q);
+    const trips = [];
+    const tripsByDate = {};
+    let totalEarnings = 0;
+    let totalDistance = 0;
+    let totalMinutes = 0;
+
+    const today = new Date().toDateString();
+
+    snapshot.forEach(doc => {
+      const trip = doc.data();
+      const tripDate = new Date(trip.completedAt || trip.createdAt);
+
+      // Filter by today if needed
+      if (type === "today" && tripDate.toDateString() !== today) {
+        return;
+      }
+
+      trips.push({...trip, id: doc.id, date: tripDate});
+      totalEarnings += trip.fare || 0;
+      totalDistance += trip.distanceKm || 0;
+
+      // Calculate trip duration
+      if (trip.acceptedAt && trip.completedAt) {
+        const start = new Date(trip.acceptedAt);
+        const end = new Date(trip.completedAt);
+        totalMinutes += (end - start) / 1000 / 60;
+      }
+
+      // Group by date for day-wise display
+      const dateKey = tripDate.toLocaleDateString('en-IN', {day: 'numeric', month: 'short', year: 'numeric'});
+      if (!tripsByDate[dateKey]) {
+        tripsByDate[dateKey] = [];
+      }
+      tripsByDate[dateKey].push({...trip, id: doc.id, date: tripDate});
+    });
+
+    // Sort by date descending
+    trips.sort((a, b) => b.date - a.date);
+
+    // Update summary
+    $("revTotalEarnings").textContent = "₹" + totalEarnings.toFixed(2);
+    $("revTotalTrips").textContent = trips.length;
+    $("revTotalDistance").textContent = totalDistance.toFixed(2) + " km";
+
+    const hours = Math.floor(totalMinutes / 60);
+    const mins = Math.floor(totalMinutes % 60);
+    $("revTotalHours").textContent = hours + "h " + mins + "m";
+
+    // Display trip history (grouped by date for total revenue)
+    const historyEl = document.getElementById("tripHistoryList");
+    if (trips.length === 0) {
+      historyEl.innerHTML = '<p style="text-align:center;color:#999;padding:20px">No trips found</p>';
+    } else {
+      if (type === "today") {
+        // Show flat list for today
+        historyEl.innerHTML = trips.map(trip => {
+          const startTime = trip.acceptedAt ? new Date(trip.acceptedAt).toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'}) : '-';
+          const endTime = trip.completedAt ? new Date(trip.completedAt).toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'}) : '-';
+          const date = trip.date.toLocaleDateString('en-IN', {day: 'numeric', month: 'short', year: 'numeric'});
+
+          return `
+            <div class="trip-item">
+              <div class="trip-header">
+                <span class="trip-date">${date} ${startTime} - ${endTime}</span>
+                <span class="trip-fare">₹${trip.fare.toFixed(2)}</span>
+              </div>
+              <div class="trip-detail"><strong>From:</strong> ${trip.pickup?.displayName || trip.pickup?.area || 'N/A'}</div>
+              <div class="trip-detail"><strong>To:</strong> ${trip.destination?.displayName || trip.destination?.area || 'N/A'}</div>
+              <div class="trip-detail"><strong>Distance:</strong> ${trip.distanceKm.toFixed(2)} km | <strong>Passenger:</strong> ${trip.passenger?.name || 'N/A'}</div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        // Show grouped by date for total revenue
+        let html = '';
+        const sortedDates = Object.keys(tripsByDate).sort((a, b) => {
+          return new Date(tripsByDate[b][0].date) - new Date(tripsByDate[a][0].date);
+        });
+
+        sortedDates.forEach(dateKey => {
+          const dayTrips = tripsByDate[dateKey];
+          const dayTotal = dayTrips.reduce((sum, t) => sum + (t.fare || 0), 0);
+          const dayDistance = dayTrips.reduce((sum, t) => sum + (t.distanceKm || 0), 0);
+
+          html += `<div class="date-group">
+            <div class="date-header">
+              <strong>${dateKey}</strong>
+              <span>${dayTrips.length} trips | ${dayDistance.toFixed(1)} km | ₹${dayTotal.toFixed(2)}</span>
+            </div>`;
+
+          dayTrips.forEach(trip => {
+            const startTime = trip.acceptedAt ? new Date(trip.acceptedAt).toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'}) : '-';
+            const endTime = trip.completedAt ? new Date(trip.completedAt).toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit'}) : '-';
+
+            html += `
+              <div class="trip-item">
+                <div class="trip-header">
+                  <span class="trip-date">${startTime} - ${endTime}</span>
+                  <span class="trip-fare">₹${trip.fare.toFixed(2)}</span>
+                </div>
+                <div class="trip-detail"><strong>From:</strong> ${trip.pickup?.displayName || trip.pickup?.area || 'N/A'}</div>
+                <div class="trip-detail"><strong>To:</strong> ${trip.destination?.displayName || trip.destination?.area || 'N/A'}</div>
+                <div class="trip-detail"><strong>Distance:</strong> ${trip.distanceKm.toFixed(2)} km</div>
+              </div>
+            `;
+          });
+
+          html += '</div>';
+        });
+
+        historyEl.innerHTML = html;
+      }
+    }
+
+  } catch (error) {
+    console.error("Error loading revenue:", error);
+    alert("Failed to load revenue data: " + error.message);
+  }
+}
+
+// Show cancelled trips
+async function showCancelledTrips() {
+  try {
+    const { collection, query: fsQuery, where, getDocs } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+
+    // Read from bookings collection (cancelled trips)
+    const bookingsRef = collection(bookingsDB, "bookings");
+    const q = fsQuery(bookingsRef,
+      where("partnerId", "==", currentPartner.partnerId),
+      where("status", "==", "CANCELLED")
+    );
+
+    const snapshot = await getDocs(q);
+    const trips = [];
+
+    snapshot.forEach(doc => {
+      const trip = doc.data();
+      const tripDate = new Date(trip.cancelledAt || trip.createdAt);
+      trips.push({...trip, id: doc.id, date: tripDate});
+    });
+
+    // Sort by date descending
+    trips.sort((a, b) => b.date - a.date);
+
+    // Display trip history
+    const historyEl = document.getElementById("tripHistoryList");
+    if (trips.length === 0) {
+      historyEl.innerHTML = '<p style="text-align:center;color:#999;padding:20px">No cancelled trips</p>';
+    } else {
+      historyEl.innerHTML = trips.map(trip => {
+        const date = trip.date.toLocaleDateString('en-IN', {day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'});
+        const cancelReason = trip.cancelledBy === 'partner' ? 'Cancelled by you' : 'Cancelled by customer';
+
+        return `
+          <div class="trip-item" style="border-left:4px solid var(--red)">
+            <div class="trip-header">
+              <span class="trip-date">${date}</span>
+              <span class="trip-fare" style="color:var(--red)">Cancelled</span>
+            </div>
+            <div class="trip-detail"><strong>Reason:</strong> ${cancelReason}</div>
+            <div class="trip-detail"><strong>From:</strong> ${trip.pickup?.displayName || trip.pickup?.area || 'N/A'}</div>
+            <div class="trip-detail"><strong>To:</strong> ${trip.destination?.displayName || trip.destination?.area || 'N/A'}</div>
+            <div class="trip-detail"><strong>Distance:</strong> ${trip.distanceKm.toFixed(2)} km | <strong>Would have earned:</strong> ₹${trip.fare.toFixed(2)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+  } catch (error) {
+    console.error("Error loading cancelled trips:", error);
+    alert("Failed to load cancelled trips: " + error.message);
+  }
+}
+
+// EDIT PROFILE
+$("editProfileBtn").addEventListener("click", () => {
+  if ($("editProfileBtn").textContent === "Edit") {
+    $("profileName").disabled = false;
+    $("profilePhone").disabled = false;
+    $("profileEmail").disabled = false;
+    // Vehicle number remains disabled - only admin can edit
+    $("saveProfileBtn").style.display = "block";
+    $("editProfileBtn").textContent = "Cancel";
+  } else {
+    cancelEdit();
+  }
+});
+
+function cancelEdit() {
+  $("profileName").disabled = true;
+  $("profilePhone").disabled = true;
+  $("profileEmail").disabled = true;
+  $("profileVehicle").disabled = true;
+  $("saveProfileBtn").style.display = "none";
+  $("editProfileBtn").textContent = "Edit";
+  loadProfileData(); // Reset to original values
+}
+
+// SAVE PROFILE
+$("saveProfileBtn").addEventListener("click", async () => {
+  const name = $("profileName").value.trim();
+  const phone = $("profilePhone").value.trim();
+  const email = $("profileEmail").value.trim();
+
+  if (!name || !phone) {
+    alert("Name and phone are required.");
+    return;
+  }
+
+  $("saveProfileBtn").disabled = true;
+  $("saveProfileBtn").textContent = "Saving...";
+
+  try {
+    await updateDoc(doc(db, "partners", currentPartner.id), {
+      name,
+      phone,
+      email,
+      profileUpdatedAt: serverTimestamp()
+    });
+
+    currentPartner.name = name;
+    currentPartner.phone = phone;
+    currentPartner.email = email;
+
+    alert("Profile updated successfully!");
+    cancelEdit();
+
+  } catch (error) {
+    alert("Error: " + error.message);
+  } finally {
+    $("saveProfileBtn").disabled = false;
+    $("saveProfileBtn").textContent = "Save Changes";
+  }
+});
+
+// LOGOUT
+$("logoutBtn").addEventListener("click", async () => {
+  if (isOnline) {
+    await updateDoc(doc(db, "partners", currentPartner.id), {
+      isOnline: false,
+      offlineAt: serverTimestamp()
+    });
+  }
+
+  stopDurationCounter();
+  if (totalHoursInterval) {
+    clearInterval(totalHoursInterval);
+    totalHoursInterval = null;
+  }
+
+  // Clear saved session
+  localStorage.removeItem("tsyPartnerSession");
+
+  window.location.href = "partner-login.html";
+});
+
+</script>
+</body>
+</html>
