@@ -1,3 +1,4 @@
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -13,73 +14,79 @@ app.use(express.static(__dirname));
 
 console.log("✓ Using Firestore for all data storage");
 
-// API Routes - All data stored in Firestore, these are simplified endpoints
-
-// Create or update customer (Firestore handles actual storage)
+// Customer API
 app.post('/api/customer', async (req, res) => {
   try {
     const { name, phone, email, address } = req.body;
 
     if (!name || !phone) {
-      return res.status(400).json({ success: false, error: "Name and phone are required" });
+      return res.status(400).json({
+        success: false,
+        error: "Name and phone are required"
+      });
     }
 
-    // Return success - frontend handles Firestore storage
     res.json({
       success: true,
-      customer: { name, phone, email: email || "", address: address || "" }
+      customer: {
+        name,
+        phone,
+        email: email || "",
+        address: address || ""
+      }
     });
   } catch (error) {
     console.error("Customer API error:", error);
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
   }
 });
 
-// Create booking (Firestore handles actual storage)
+// Booking API
 app.post('/api/booking', async (req, res) => {
   try {
     const bookingData = req.body;
 
-    if (!bookingData.pickup || !bookingData.destination || !bookingData.passenger) {
-      return res.status(400).json({ success: false, error: "Invalid booking data" });
+    if (
+      !bookingData.pickup ||
+      !bookingData.destination ||
+      !bookingData.passenger
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: "Invalid booking data"
+      });
     }
 
     const bookingId = "TSY" + Date.now();
 
-    // Return success - frontend handles Firestore storage
     res.json({
       success: true,
-      bookingId: bookingId
+      bookingId
     });
   } catch (error) {
     console.error("Booking API error:", error);
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
   }
 });
 
-// Serve HTML files
+// Homepage - actual existing file
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Login page compatibility
 app.get('/login.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login.html'));
-});
-
-app.get('/home.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'home.html'));
-});
-
-app.get('/booking.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'booking.html'));
-});
-
-app.get('/admin.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`✓ TSY TAXI server running on http://localhost:${PORT}`);
-  console.log(`✓ All data stored in Firebase Firestore`);
+  console.log(`✓ TSY TAXI server running on port ${PORT}`);
+  console.log(`✓ Firebase Firestore frontend integration retained`);
 });
