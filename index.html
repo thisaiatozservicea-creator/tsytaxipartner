@@ -1,82 +1,501 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#ffc400">
-<title>Partner Login | TSY TAXI</title>
+
+<title>TSY TAXI Driver  Login | Driver Portal</title>
+
+<meta name="description" content="Welcome to the official TSY TAXI Partner Portal. Registered auto drivers can securely log in, manage bookings, receive ride requests and access their driver dashboard in Thisayanvilai and nearby areas.">
+
+<!-- Private driver portal: do not show in Google search -->
+<meta name="robots" content="noindex, follow">
+<meta name="googlebot" content="noindex, follow">
+
+<!-- Google Search Console Verification -->
+<meta name="google-site-verification" content="bVNVJK2f28V5aBB2K8FwSc790U2mDbUxHHRavWoqAfI">
+
+<!-- Favicon -->
+<link rel="icon" type="image/jpeg" href="/logo.jpeg">
+<link rel="shortcut icon" href="/logo.jpeg">
+<link rel="apple-touch-icon" href="/logo.jpeg">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TSY TAXI">
+<meta property="og:title" content="TSY TAXI Partner Login">
+<meta property="og:description" content="Secure login portal for TSY TAXI registered drivers and partners. Manage your rides and access your driver dashboard.">
+<meta property="og:url" content="https://tsytaxi.vercel.app/partner-login.html">
+<meta property="og:image" content="https://tsytaxi.vercel.app/logo.jpeg">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TSY TAXI Partner Login">
+<meta name="twitter:description" content="Secure driver and partner login portal for TSY TAXI.">
+<meta name="twitter:image" content="https://tsytaxi.vercel.app/logo.jpeg">
+
 <style>
-:root{--yellow:#ffc400;--ink:#111;--muted:#777;--green:#16834a;--red:#e34c38}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink)}
-body{min-height:100svh;background:radial-gradient(circle at 50% 0,#fff4c4 0,#fff 42%,#f4f4f2 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+:root{
+  --yellow:#ffc400;
+  --ink:#111;
+  --muted:#777;
+  --green:#16834a;
+  --red:#e34c38;
+}
 
-.topbar{position:fixed;top:0;left:0;right:0;min-height:68px;background:#111;color:#fff;border-bottom:4px solid var(--yellow);display:flex;align-items:center;justify-content:center;padding:0 20px;z-index:100}
-.brand{display:flex;align-items:center;gap:10px}
-.brand img{width:43px;height:43px;border-radius:50%;object-fit:contain;background:#fff;padding:2px}
-.brand strong{display:block;font-size:18px;font-weight:950;letter-spacing:1.3px}
-.brand small{display:block;color:var(--yellow);font-size:9px;letter-spacing:2px;font-weight:800;margin-top:4px}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-.login-box{background:#fff;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.1);max-width:420px;width:100%;margin-top:80px}
-.login-box h1{font-size:28px;font-weight:950;margin-bottom:8px;text-align:center}
-.login-box p{color:var(--muted);font-size:14px;text-align:center;margin-bottom:30px}
+html,body{
+  min-height:100%;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  color:var(--ink);
+}
 
-label{display:block;font-size:12px;font-weight:900;margin-bottom:8px;color:var(--ink)}
-input{width:100%;padding:14px;border:2px solid #e9e9e9;border-radius:10px;font-size:15px;margin-bottom:20px;transition:border-color 0.2s}
-input:focus{outline:0;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,196,0,0.1)}
+body{
+  min-height:100svh;
+  background:radial-gradient(circle at 50% 0,#fff4c4 0,#fff 42%,#f4f4f2 100%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
 
-.btn-login{width:100%;background:var(--yellow);border:0;padding:16px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 0 #d19e00}
-.btn-login:hover{background:#d49c00;transform:translateY(-2px);box-shadow:0 6px 0 #d19e00}
-.btn-login:active{transform:translateY(2px);box-shadow:0 2px 0 #d19e00}
-.btn-login:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  min-height:68px;
+  background:#111;
+  color:#fff;
+  border-bottom:4px solid var(--yellow);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  z-index:100;
+}
 
-.message{margin-top:16px;padding:12px;border-radius:8px;font-size:13px;text-align:center;display:none}
-.message.show{display:block}
-.message.error{background:#fff0ed;color:#a93225;border:1px solid #ffccc7}
-.message.success{background:#eaf8ef;color:#176534;border:1px solid #b7eb8f}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-.blocked-screen{background:#fff;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.1);max-width:500px;width:100%;text-align:center;display:none}
-.blocked-screen.show{display:block}
-.blocked-icon{width:100px;height:100px;background:#ffe1e1;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:50px}
-.blocked-screen h1{font-size:26px;color:var(--red);margin-bottom:16px}
-.blocked-screen p{color:var(--muted);line-height:1.6;margin-bottom:24px}
-.contact-box{background:#f9f9f9;border-radius:12px;padding:20px;margin-bottom:20px}
-.contact-box p{font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:900}
-.call-btn{display:block;background:var(--green);color:#fff;padding:16px;border-radius:10px;text-decoration:none;font-weight:900;font-size:18px;margin-bottom:10px}
-.call-btn:hover{background:#0e5a32}
-.btn-back{background:#e9e9e9;color:var(--ink);border:0;padding:14px;border-radius:10px;font-weight:900;font-size:14px;cursor:pointer;width:100%}
-.btn-back:hover{background:#d4d4d4}
+.brand img{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  object-fit:contain;
+  background:#fff;
+  padding:2px;
+}
 
-.request-link{display:block;text-align:center;margin-top:20px;color:var(--green);font-size:14px;font-weight:900;text-decoration:none;cursor:pointer}
-.request-link:hover{text-decoration:underline}
+.brand strong{
+  display:block;
+  font-size:18px;
+  font-weight:950;
+  letter-spacing:1.3px;
+}
 
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;padding:20px;overflow-y:auto}
-.modal.show{display:flex;align-items:center;justify-content:center}
-.modal-content{background:#fff;border-radius:20px;padding:32px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.modal-header h2{font-size:22px;font-weight:950}
-.modal-close{background:#e9e9e9;border:0;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;font-weight:900}
-.modal-close:hover{background:#d4d4d4}
+.brand small{
+  display:block;
+  color:var(--yellow);
+  font-size:9px;
+  letter-spacing:2px;
+  font-weight:800;
+  margin-top:4px;
+}
 
-textarea{width:100%;padding:14px;border:2px solid #e9e9e9;border-radius:10px;font-size:14px;margin-bottom:20px;font-family:inherit;resize:vertical;min-height:80px}
-textarea:focus{outline:0;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,196,0,0.1)}
+.login-box,
+.blocked-screen{
+  background:#fff;
+  border-radius:20px;
+  padding:40px;
+  box-shadow:0 10px 40px rgba(0,0,0,.1);
+  max-width:420px;
+  width:100%;
+  margin-top:80px;
+}
 
-.success-popup{text-align:center;padding:20px}
-.success-icon{width:80px;height:80px;background:#eaf8ef;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:40px}
-.success-popup h3{font-size:20px;color:var(--green);margin-bottom:12px}
-.success-popup p{color:var(--muted);line-height:1.6;margin-bottom:16px;font-size:14px}
-.contact-info{background:#fff7df;border-radius:12px;padding:16px;margin-top:20px}
-.contact-info p{font-size:13px;color:#666;margin-bottom:8px}
-.contact-number{font-size:20px;font-weight:900;color:var(--green);display:block;margin-top:8px}
+.login-box h1{
+  font-size:28px;
+  font-weight:950;
+  margin-bottom:8px;
+  text-align:center;
+}
+
+.login-box>p{
+  color:var(--muted);
+  font-size:14px;
+  text-align:center;
+  margin-bottom:30px;
+}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+  color:var(--ink);
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:2px solid #e9e9e9;
+  border-radius:10px;
+  font-size:15px;
+  margin-bottom:20px;
+  transition:border-color .2s;
+}
+
+input:focus,
+textarea:focus{
+  outline:0;
+  border-color:var(--yellow);
+  box-shadow:0 0 0 3px rgba(255,196,0,.1);
+}
+
+.password-wrap{
+  position:relative;
+}
+
+.password-wrap input{
+  padding-right:75px;
+}
+
+.toggle-password{
+  position:absolute;
+  right:10px;
+  top:10px;
+  border:0;
+  background:#f3f3f3;
+  padding:7px 10px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:800;
+}
+
+.btn-login{
+  width:100%;
+  background:var(--yellow);
+  color:#111;
+  border:0;
+  padding:16px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:15px;
+  cursor:pointer;
+  transition:all .2s;
+  box-shadow:0 4px 0 #d19e00;
+}
+
+.btn-login:hover{
+  background:#eab300;
+  transform:translateY(-2px);
+  box-shadow:0 6px 0 #d19e00;
+}
+
+.btn-login:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 #d19e00;
+}
+
+.btn-login:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.message{
+  margin-top:16px;
+  padding:12px;
+  border-radius:8px;
+  font-size:13px;
+  text-align:center;
+  display:none;
+  overflow-wrap:anywhere;
+}
+
+.message.show{
+  display:block;
+}
+
+.message.error{
+  background:#fff0ed;
+  color:#a93225;
+  border:1px solid #ffccc7;
+}
+
+.message.success{
+  background:#eaf8ef;
+  color:#176534;
+  border:1px solid #b7eb8f;
+}
+
+.blocked-screen{
+  max-width:500px;
+  text-align:center;
+  display:none;
+}
+
+.blocked-screen.show{
+  display:block;
+}
+
+.blocked-icon{
+  width:100px;
+  height:100px;
+  background:#ffe1e1;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 24px;
+  font-size:50px;
+}
+
+.blocked-screen h1{
+  font-size:26px;
+  color:var(--red);
+  margin-bottom:16px;
+}
+
+.blocked-screen p{
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:24px;
+}
+
+.contact-box{
+  background:#f9f9f9;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.contact-box p{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:12px;
+  font-weight:900;
+}
+
+.call-btn{
+  display:block;
+  background:var(--green);
+  color:#fff;
+  padding:16px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:900;
+  font-size:18px;
+  margin-bottom:10px;
+}
+
+.call-btn:hover{
+  background:#0e5a32;
+}
+
+.btn-back{
+  background:#e9e9e9;
+  color:var(--ink);
+  border:0;
+  padding:14px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:14px;
+  cursor:pointer;
+  width:100%;
+}
+
+.btn-back:hover{
+  background:#d4d4d4;
+}
+
+.request-link{
+  display:block;
+  text-align:center;
+  margin-top:20px;
+  color:var(--green);
+  font-size:14px;
+  font-weight:900;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+.request-link:hover{
+  text-decoration:underline;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  z-index:999;
+  padding:20px;
+  overflow-y:auto;
+}
+
+.modal.show{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-content{
+  background:#fff;
+  border-radius:20px;
+  padding:32px;
+  max-width:500px;
+  width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+  max-height:90svh;
+  overflow-y:auto;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.modal-header h2{
+  font-size:22px;
+  font-weight:950;
+}
+
+.modal-close{
+  background:#e9e9e9;
+  border:0;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  font-size:18px;
+  cursor:pointer;
+  font-weight:900;
+}
+
+.modal-close:hover{
+  background:#d4d4d4;
+}
+
+textarea{
+  width:100%;
+  padding:14px;
+  border:2px solid #e9e9e9;
+  border-radius:10px;
+  font-size:14px;
+  margin-bottom:20px;
+  font-family:inherit;
+  resize:vertical;
+  min-height:80px;
+}
+
+.success-popup{
+  text-align:center;
+  padding:20px;
+}
+
+.success-icon{
+  width:80px;
+  height:80px;
+  background:#eaf8ef;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 20px;
+  font-size:40px;
+}
+
+.success-popup h3{
+  font-size:20px;
+  color:var(--green);
+  margin-bottom:12px;
+}
+
+.success-popup p{
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:16px;
+  font-size:14px;
+}
+
+.contact-info{
+  background:#fff7df;
+  border-radius:12px;
+  padding:16px;
+  margin-top:20px;
+}
+
+.contact-info p{
+  font-size:13px;
+  color:#666;
+  margin-bottom:8px;
+}
+
+.contact-number{
+  font-size:20px;
+  font-weight:900;
+  color:var(--green);
+  display:block;
+  margin-top:8px;
+}
 
 @media(max-width:600px){
-  .topbar{min-height:56px;padding:0 16px}
-  .brand img{width:36px;height:36px}
-  .brand strong{font-size:16px}
-  .brand small{font-size:8px}
-  .login-box{padding:30px 24px;margin-top:70px}
-  .login-box h1{font-size:24px}
-  .blocked-screen{padding:30px 24px}
+  .topbar{
+    min-height:56px;
+    padding:0 16px;
+  }
+
+  .brand img{
+    width:36px;
+    height:36px;
+  }
+
+  .brand strong{
+    font-size:16px;
+  }
+
+  .brand small{
+    font-size:8px;
+  }
+
+  .login-box{
+    padding:30px 24px;
+    margin-top:70px;
+  }
+
+  .login-box h1{
+    font-size:24px;
+  }
+
+  .blocked-screen{
+    padding:30px 24px;
+  }
+
+  .modal-content{
+    padding:24px 20px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
 }
 </style>
 </head>
@@ -85,13 +504,17 @@ textarea:focus{outline:0;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(25
 
 <header class="topbar">
   <div class="brand">
-    <img src="logo.jpeg" alt="TSY Taxi">
-    <div><strong>TSY TAXI</strong><small>PARTNER PORTAL</small></div>
+    <img src="/logo.jpeg" alt="TSY TAXI logo" onerror="this.style.display='none'">
+    <div>
+      <strong>TSY TAXI</strong>
+      <small>PARTNER PORTAL</small>
+    </div>
   </div>
 </header>
 
 <!-- LOGIN BOX -->
 <div class="login-box" id="loginBox">
+
   <h1>Partner Login</h1>
   <p>Sign in with your Partner ID and password</p>
 
@@ -99,81 +522,157 @@ textarea:focus{outline:0;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(25
     ℹ️ <strong>Note:</strong> Logging in will replace any existing session. Make sure to logout from the dashboard before switching accounts.
   </div>
 
-  <label>Partner ID</label>
-  <input type="text" id="partnerId" placeholder="Enter Partner ID" autocomplete="username">
+  <form id="loginForm">
 
-  <label>Password</label>
-  <input type="password" id="password" placeholder="Enter password" autocomplete="current-password">
+    <label for="partnerId">Partner ID</label>
+    <input
+      type="text"
+      id="partnerId"
+      placeholder="Enter Partner ID"
+      autocomplete="username"
+      required
+    >
 
-  <button class="btn-login" id="loginBtn">Login</button>
+    <label for="password">Password</label>
 
-  <div id="loginMessage" class="message"></div>
+    <div class="password-wrap">
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter password"
+        autocomplete="current-password"
+        required
+      >
+      <button type="button" class="toggle-password" id="togglePassword">
+        Show
+      </button>
+    </div>
 
-  <a class="request-link" id="requestLink">📝 Request for New Partner Account</a>
+    <button type="submit" class="btn-login" id="loginBtn">
+      Login
+    </button>
+
+  </form>
+
+  <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
+
+  <a class="request-link" id="requestLink" href="#">
+    📝 Request for New Partner Account
+  </a>
+
 </div>
 
 <!-- REGISTRATION MODAL -->
 <div class="modal" id="registrationModal">
   <div class="modal-content">
+
     <div class="modal-header">
       <h2>Partner Registration</h2>
-      <button class="modal-close" id="closeRegModal">✕</button>
+      <button class="modal-close" id="closeRegModal" type="button" aria-label="Close">✕</button>
     </div>
 
-    <label>Full Name</label>
-    <input type="text" id="regName" placeholder="Enter your full name">
+    <form id="registrationForm">
 
-    <label>Phone Number</label>
-    <input type="tel" id="regPhone" placeholder="Enter phone number">
+      <label for="regName">Full Name</label>
+      <input type="text" id="regName" placeholder="Enter your full name" autocomplete="name" required>
 
-    <label>Vehicle Number</label>
-    <input type="text" id="regVehicle" placeholder="Enter vehicle number" style="text-transform:uppercase">
+      <label for="regPhone">Phone Number</label>
+      <input type="tel" id="regPhone" placeholder="Enter phone number" autocomplete="tel" inputmode="tel" maxlength="15" required>
 
-    <label>Address</label>
-    <textarea id="regAddress" placeholder="Enter your full address"></textarea>
+      <label for="regVehicle">Vehicle Number</label>
+      <input type="text" id="regVehicle" placeholder="Enter vehicle number" style="text-transform:uppercase" required>
 
-    <button class="btn-login" id="submitRequestBtn">Submit Request</button>
+      <label for="regAddress">Address</label>
+      <textarea id="regAddress" placeholder="Enter your full address" required></textarea>
 
-    <div id="regMessage" class="message"></div>
+      <button class="btn-login" type="submit" id="submitRequestBtn">
+        Submit Request
+      </button>
+
+      <div id="regMessage" class="message" role="status" aria-live="polite"></div>
+
+    </form>
   </div>
 </div>
 
 <!-- SUCCESS POPUP -->
 <div class="modal" id="successModal">
   <div class="modal-content">
+
     <div class="success-popup">
+
       <div class="success-icon">✓</div>
+
       <h3>Request Submitted Successfully!</h3>
-      <p>Thank you for your interest in joining TSY Taxi as a partner. Our team will review your request and reply within 5 hours.</p>
+
+      <p>
+        Thank you for your interest in joining TSY Taxi as a partner.
+        Our team will review your request and reply within 5 hours.
+      </p>
 
       <div class="contact-info">
         <p>For any enquiry, call:</p>
-        <span class="contact-number">📞 7639396869</span>
+        <a href="tel:7639396869" class="contact-number">
+          📞 7639396869
+        </a>
       </div>
 
-      <button class="btn-login" style="margin-top:24px" onclick="location.reload()">OK</button>
+      <button class="btn-login" style="margin-top:24px" id="successOkBtn" type="button">
+        OK
+      </button>
+
     </div>
   </div>
 </div>
 
 <!-- BLOCKED SCREEN -->
 <div class="blocked-screen" id="blockedScreen">
+
   <div class="blocked-icon">🚫</div>
+
   <h1>Account Blocked</h1>
-  <p>Your account has been deactivated due to some issue. Please contact the admin for assistance.</p>
+
+  <p>
+    Your account has been deactivated due to some issue.
+    Please contact the admin for assistance.
+  </p>
 
   <div class="contact-box">
     <p>Contact Admin</p>
-    <a href="tel:7639396869" class="call-btn">📞 Call: 7639396869</a>
-    <p style="font-size:12px;line-height:1.5">Explain your issue and the admin will help you reactivate your account.</p>
+
+    <a href="tel:7639396869" class="call-btn">
+      📞 Call: 7639396869
+    </a>
+
+    <p style="font-size:12px;line-height:1.5">
+      Explain your issue and the admin will help you reactivate your account.
+    </p>
   </div>
 
-  <button class="btn-back" onclick="location.reload()">← Back to Login</button>
+  <button class="btn-back" id="backToLoginBtn" type="button">
+    ← Back to Login
+  </button>
+
 </div>
 
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+
+/* =========================================
+   FIREBASE CONFIGURATION
+   EXISTING PROJECT PRESERVED
+========================================= */
 
 const firebaseConfig = {
   apiKey: "AIzaSyDg1rboXdFIWnyxH3nw3NV0UGk8vDOzUJc",
@@ -189,162 +688,374 @@ const db = getFirestore(app);
 
 const $ = id => document.getElementById(id);
 
-// AUTO-LOGIN CHECK
-(async function checkAutoLogin() {
+
+/* =========================================
+   AUTO LOGIN CHECK
+========================================= */
+
+let autoLoginChecking = true;
+
+(async function checkAutoLogin(){
+
   const savedSession = localStorage.getItem("tsyPartnerSession");
-  if (savedSession) {
-    try {
-      const { partnerId } = JSON.parse(savedSession);
-      const partnerDoc = await getDoc(doc(db, "partners", partnerId));
 
-      if (partnerDoc.exists() && partnerDoc.data().active !== false) {
-        // Valid session, redirect to dashboard
-        window.location.replace("partner-dashboard.html");
-        return;
-      }
-    } catch (error) {
-      console.error("Auto-login check failed:", error);
-    }
-  }
-})();
-
-// LOGIN
-$("loginBtn").addEventListener("click", async () => {
-  const partnerId = $("partnerId").value.trim();
-  const password = $("password").value;
-
-  if (!partnerId || !password) {
-    showMessage("Enter Partner ID and password.", "error");
+  if(!savedSession){
+    autoLoginChecking = false;
     return;
   }
 
-  // Clear any existing session before new login
-  localStorage.removeItem("tsyPartnerSession");
+  try{
 
-  $("loginBtn").disabled = true;
-  showMessage("Logging in...", "");
+    const session = JSON.parse(savedSession);
+    const partnerId = session.partnerId;
 
-  try {
-    const partnerDoc = await getDoc(doc(db, "partners", partnerId));
+    if(!partnerId){
+      localStorage.removeItem("tsyPartnerSession");
+      return;
+    }
 
-    if (!partnerDoc.exists()) {
-      throw new Error("Partner ID not found.");
+    const partnerDoc = await getDoc(doc(db,"partners",partnerId));
+
+    if(!partnerDoc.exists()){
+      localStorage.removeItem("tsyPartnerSession");
+      return;
     }
 
     const partnerData = partnerDoc.data();
 
-    if (partnerData.password !== password) {
-      throw new Error("Incorrect password.");
-    }
-
-    // Check if account is blocked
-    if (partnerData.active === false) {
+    if(partnerData.active === false){
+      localStorage.removeItem("tsyPartnerSession");
       $("loginBox").style.display = "none";
       $("blockedScreen").classList.add("show");
       return;
     }
 
-    // Save session
-    localStorage.setItem("tsyPartnerSession", JSON.stringify({
-      partnerId: partnerId,
-      id: partnerDoc.id
-    }));
+    window.location.replace("partner-dashboard.html");
 
-    showMessage("Login successful! Redirecting...", "success");
+  }catch(error){
 
-    setTimeout(() => {
-      window.location.href = "partner-dashboard.html";
-    }, 800);
+    console.error("Auto-login check failed:",error);
 
-  } catch (error) {
-    showMessage(error.message, "error");
-  } finally {
-    $("loginBtn").disabled = false;
+    showMessage(
+      "Could not verify your saved session. Please log in again.",
+      "error"
+    );
+
+    localStorage.removeItem("tsyPartnerSession");
+
+  }finally{
+
+    autoLoginChecking = false;
+
   }
+
+})();
+
+
+/* =========================================
+   PASSWORD VISIBILITY
+========================================= */
+
+$("togglePassword").addEventListener("click",()=>{
+
+  const passwordInput = $("password");
+
+  const isPassword = passwordInput.type === "password";
+
+  passwordInput.type = isPassword ? "text" : "password";
+
+  $("togglePassword").textContent = isPassword ? "Hide" : "Show";
+
 });
 
-// Enter key to login
-$("password").addEventListener("keydown", e => {
-  if (e.key === "Enter") $("loginBtn").click();
+
+/* =========================================
+   LOGIN
+========================================= */
+
+$("loginForm").addEventListener("submit",async(event)=>{
+
+  event.preventDefault();
+
+  if(autoLoginChecking){
+    showMessage("Checking saved session. Please wait.","error");
+    return;
+  }
+
+  const partnerId = $("partnerId").value.trim();
+  const password = $("password").value;
+
+  if(!partnerId || !password){
+    showMessage("Enter Partner ID and password.","error");
+    return;
+  }
+
+  $("loginBtn").disabled = true;
+  $("loginBtn").textContent = "Logging in...";
+
+  showMessage("Logging in...","");
+
+  try{
+
+    // Remove previous account session before switching accounts.
+    localStorage.removeItem("tsyPartnerSession");
+
+    const partnerDoc = await getDoc(doc(db,"partners",partnerId));
+
+    if(!partnerDoc.exists()){
+      throw new Error("Partner ID not found.");
+    }
+
+    const partnerData = partnerDoc.data();
+
+    if(partnerData.password !== password){
+      throw new Error("Incorrect password.");
+    }
+
+    if(partnerData.active === false){
+
+      $("loginBox").style.display = "none";
+
+      $("blockedScreen").classList.add("show");
+
+      return;
+    }
+
+    localStorage.setItem(
+      "tsyPartnerSession",
+      JSON.stringify({
+        partnerId:partnerId,
+        id:partnerDoc.id
+      })
+    );
+
+    showMessage("Login successful! Redirecting...","success");
+
+    $("loginBtn").textContent = "Success";
+
+    setTimeout(()=>{
+      window.location.replace("partner-dashboard.html");
+    },800);
+
+  }catch(error){
+
+    console.error("Login error:",error);
+
+    showMessage(
+      error.message || "Login failed. Please try again.",
+      "error"
+    );
+
+  }finally{
+
+    if($("loginBtn").textContent !== "Success"){
+      $("loginBtn").disabled = false;
+      $("loginBtn").textContent = "Login";
+    }
+
+  }
+
 });
 
-function showMessage(text, type) {
+
+/* =========================================
+   LOGIN MESSAGE
+========================================= */
+
+function showMessage(text,type){
+
   const msg = $("loginMessage");
+
   msg.textContent = text;
-  msg.className = "message " + type;
-  if (text) msg.classList.add("show");
+
+  msg.className = "message";
+
+  if(type){
+    msg.classList.add(type);
+  }
+
+  if(text){
+    msg.classList.add("show");
+  }
+
 }
 
-// REGISTRATION MODAL
+
+/* =========================================
+   REGISTRATION MODAL
+========================================= */
+
 const requestLink = $("requestLink");
+
 const registrationModal = $("registrationModal");
+
 const closeRegModal = $("closeRegModal");
-const submitRequestBtn = $("submitRequestBtn");
+
 const successModal = $("successModal");
 
-requestLink.addEventListener("click", () => {
+
+requestLink.addEventListener("click",(event)=>{
+
+  event.preventDefault();
+
   registrationModal.classList.add("show");
+
 });
 
-closeRegModal.addEventListener("click", () => {
+
+closeRegModal.addEventListener("click",()=>{
+
   registrationModal.classList.remove("show");
+
 });
 
-registrationModal.addEventListener("click", (e) => {
-  if (e.target === registrationModal) {
+
+registrationModal.addEventListener("click",(event)=>{
+
+  if(event.target === registrationModal){
     registrationModal.classList.remove("show");
   }
+
 });
 
-// SUBMIT REGISTRATION REQUEST
-submitRequestBtn.addEventListener("click", async () => {
+
+/* =========================================
+   REGISTRATION REQUEST
+   FIRESTORE COLLECTION: partnerRequests
+========================================= */
+
+$("registrationForm").addEventListener("submit",async(event)=>{
+
+  event.preventDefault();
+
   const name = $("regName").value.trim();
+
   const phone = $("regPhone").value.trim();
+
   const vehicle = $("regVehicle").value.trim().toUpperCase();
+
   const address = $("regAddress").value.trim();
 
   const regMessage = $("regMessage");
 
-  if (!name || !phone || !vehicle || !address) {
-    regMessage.textContent = "Please fill all fields";
+  const cleanPhone = phone.replace(/\D/g,"");
+
+  if(!name || !phone || !vehicle || !address){
+
+    regMessage.textContent = "Please fill all fields.";
+
     regMessage.className = "message error show";
+
     return;
+
   }
 
-  if (phone.length < 10) {
-    regMessage.textContent = "Please enter valid phone number";
+  if(cleanPhone.length < 10 || cleanPhone.length > 15){
+
+    regMessage.textContent = "Please enter a valid phone number.";
+
     regMessage.className = "message error show";
+
     return;
+
   }
 
-  submitRequestBtn.disabled = true;
-  submitRequestBtn.textContent = "Submitting...";
-  regMessage.style.display = "none";
+  const submitButton = $("submitRequestBtn");
 
-  try {
-    const { collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+  submitButton.disabled = true;
 
-    await addDoc(collection(db, "partnerRequests"), {
-      name: name,
-      phone: phone,
-      vehicleNumber: vehicle,
-      address: address,
-      status: "PENDING",
-      requestedAt: serverTimestamp()
+  submitButton.textContent = "Submitting...";
+
+  regMessage.className = "message";
+
+  try{
+
+    await addDoc(collection(db,"partnerRequests"),{
+
+      name:name,
+
+      phone:phone,
+
+      vehicleNumber:vehicle,
+
+      address:address,
+
+      status:"PENDING",
+
+      requestedAt:serverTimestamp()
+
     });
 
     registrationModal.classList.remove("show");
+
     successModal.classList.add("show");
 
-  } catch (error) {
-    console.error("Registration error:", error);
-    regMessage.textContent = "Error: " + error.message;
+    $("registrationForm").reset();
+
+  }catch(error){
+
+    console.error("Registration error:",error);
+
+    regMessage.textContent =
+      "Unable to submit request: " + (error.message || "Please try again.");
+
     regMessage.className = "message error show";
-  } finally {
-    submitRequestBtn.disabled = false;
-    submitRequestBtn.textContent = "Submit Request";
+
+  }finally{
+
+    submitButton.disabled = false;
+
+    submitButton.textContent = "Submit Request";
+
   }
+
 });
+
+
+/* =========================================
+   SUCCESS POPUP
+========================================= */
+
+$("successOkBtn").addEventListener("click",()=>{
+
+  successModal.classList.remove("show");
+
+});
+
+
+/* =========================================
+   BACK TO LOGIN
+========================================= */
+
+$("backToLoginBtn").addEventListener("click",()=>{
+
+  $("blockedScreen").classList.remove("show");
+
+  $("loginBox").style.display = "block";
+
+  $("loginForm").reset();
+
+  showMessage("","");
+
+});
+
+
+/* =========================================
+   ESCAPE KEY CLOSE MODAL
+========================================= */
+
+document.addEventListener("keydown",(event)=>{
+
+  if(event.key === "Escape"){
+
+    registrationModal.classList.remove("show");
+
+    successModal.classList.remove("show");
+
+  }
+
+});
+
 </script>
 
 </body>
