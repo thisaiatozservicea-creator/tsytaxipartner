@@ -1,179 +1,698 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#ffc400">
-<title>Partner Login | TSY TAXI</title>
+
+<!-- ================= SEO META TAGS ================= -->
+
+<title>TSY TAXI Driver Login | Official Partner Portal</title>
+
+<meta name="description" content="Welcome to the official TSY TAXI Driver and Partner Portal. Sign in securely using your Partner ID and password to access your driver dashboard, manage your partner account, and stay connected with TSY TAXI.">
+
+<meta name="keywords" content="TSY TAXI, TSY Taxi Driver Login, TSY Taxi Partner Login, Taxi Driver Portal, Taxi Partner Dashboard, Driver Account Login, TSY TAXI Partner Portal">
+
+<meta name="author" content="TSY TAXI">
+<meta name="application-name" content="TSY TAXI">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="googlebot" content="index, follow">
+
+<!-- ================= FAVICON ================= -->
+
+<link rel="icon" type="image/jpeg" href="/logo.jpeg">
+<link rel="shortcut icon" href="/logo.jpeg">
+<link rel="apple-touch-icon" href="/logo.jpeg">
+
+<!-- ================= OPEN GRAPH ================= -->
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TSY TAXI">
+<meta property="og:title" content="TSY TAXI Driver Login | Official Partner Portal">
+<meta property="og:description" content="Official TSY TAXI Driver and Partner Portal. Securely log in with your Partner ID and password to access your driver dashboard and partner account.">
+<meta property="og:image" content="https://tsytaxi.vercel.app/logo.jpeg">
+<meta property="og:image:alt" content="TSY TAXI Official Logo">
+<meta property="og:url" content="https://tsytaxi.vercel.app/">
+
+<!-- ================= TWITTER CARD ================= -->
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TSY TAXI Driver Login | Partner Portal">
+<meta name="twitter:description" content="Securely access the official TSY TAXI Driver and Partner Portal. Sign in with your Partner ID and password.">
+<meta name="twitter:image" content="https://tsytaxi.vercel.app/logo.jpeg">
+
 <style>
-:root{--yellow:#ffc400;--ink:#111;--muted:#777;--green:#16834a;--red:#e34c38}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink)}
-body{min-height:100svh;background:radial-gradient(circle at 50% 0,#fff4c4 0,#fff 42%,#f4f4f2 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+:root{
+  --yellow:#ffc400;
+  --ink:#111;
+  --muted:#777;
+  --green:#16834a;
+  --red:#e34c38;
+}
 
-.topbar{position:fixed;top:0;left:0;right:0;min-height:68px;background:#111;color:#fff;border-bottom:4px solid var(--yellow);display:flex;align-items:center;justify-content:center;padding:0 20px;z-index:100}
-.brand{display:flex;align-items:center;gap:10px}
-.brand img{width:43px;height:43px;border-radius:50%;object-fit:contain;background:#fff;padding:2px}
-.brand strong{display:block;font-size:18px;font-weight:950;letter-spacing:1.3px}
-.brand small{display:block;color:var(--yellow);font-size:9px;letter-spacing:2px;font-weight:800;margin-top:4px}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-.login-box{background:#fff;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.1);max-width:420px;width:100%;margin-top:80px}
-.login-box h1{font-size:28px;font-weight:950;margin-bottom:8px;text-align:center}
-.login-box p{color:var(--muted);font-size:14px;text-align:center;margin-bottom:30px}
+html,body{
+  min-height:100%;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  color:var(--ink);
+}
 
-label{display:block;font-size:12px;font-weight:900;margin-bottom:8px;color:var(--ink)}
-input{width:100%;padding:14px;border:2px solid #e9e9e9;border-radius:10px;font-size:15px;margin-bottom:20px;transition:border-color 0.2s}
-input:focus{outline:0;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,196,0,0.1)}
+body{
+  min-height:100svh;
+  background:radial-gradient(circle at 50% 0,#fff4c4 0,#fff 42%,#f4f4f2 100%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
 
-.btn-login{width:100%;background:var(--yellow);border:0;padding:16px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 0 #d19e00}
-.btn-login:hover{background:#d49c00;transform:translateY(-2px);box-shadow:0 6px 0 #d19e00}
-.btn-login:active{transform:translateY(2px);box-shadow:0 2px 0 #d19e00}
-.btn-login:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+/* TOP BAR */
 
-.message{margin-top:16px;padding:12px;border-radius:8px;font-size:13px;text-align:center;display:none}
-.message.show{display:block}
-.message.error{background:#fff0ed;color:#a93225;border:1px solid #ffccc7}
-.message.success{background:#eaf8ef;color:#176534;border:1px solid #b7eb8f}
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  min-height:68px;
+  background:#111;
+  color:#fff;
+  border-bottom:4px solid var(--yellow);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  z-index:100;
+}
 
-.blocked-screen{background:#fff;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.1);max-width:500px;width:100%;text-align:center;display:none}
-.blocked-screen.show{display:block}
-.blocked-icon{width:100px;height:100px;background:#ffe1e1;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:50px}
-.blocked-screen h1{font-size:26px;color:var(--red);margin-bottom:16px}
-.blocked-screen p{color:var(--muted);line-height:1.6;margin-bottom:24px}
-.contact-box{background:#f9f9f9;border-radius:12px;padding:20px;margin-bottom:20px}
-.contact-box p{font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:900}
-.call-btn{display:block;background:var(--green);color:#fff;padding:16px;border-radius:10px;text-decoration:none;font-weight:900;font-size:18px;margin-bottom:10px}
-.call-btn:hover{background:#0e5a32}
-.btn-back{background:#e9e9e9;color:var(--ink);border:0;padding:14px;border-radius:10px;font-weight:900;font-size:14px;cursor:pointer;width:100%}
-.btn-back:hover{background:#d4d4d4}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-.request-link{display:block;text-align:center;margin-top:20px;color:var(--green);font-size:14px;font-weight:900;text-decoration:none;cursor:pointer}
-.request-link:hover{text-decoration:underline}
+.brand img{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  object-fit:contain;
+  background:#fff;
+  padding:2px;
+}
 
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;padding:20px;overflow-y:auto}
-.modal.show{display:flex;align-items:center;justify-content:center}
-.modal-content{background:#fff;border-radius:20px;padding:32px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.modal-header h2{font-size:22px;font-weight:950}
-.modal-close{background:#e9e9e9;border:0;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;font-weight:900}
-.modal-close:hover{background:#d4d4d4}
+.brand strong{
+  display:block;
+  font-size:18px;
+  font-weight:950;
+  letter-spacing:1.3px;
+}
 
-textarea{width:100%;padding:14px;border:2px solid #e9e9e9;border-radius:10px;font-size:14px;margin-bottom:20px;font-family:inherit;resize:vertical;min-height:80px}
-textarea:focus{outline:0;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,196,0,0.1)}
+.brand small{
+  display:block;
+  color:var(--yellow);
+  font-size:9px;
+  letter-spacing:2px;
+  font-weight:800;
+  margin-top:4px;
+}
 
-.success-popup{text-align:center;padding:20px}
-.success-icon{width:80px;height:80px;background:#eaf8ef;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:40px}
-.success-popup h3{font-size:20px;color:var(--green);margin-bottom:12px}
-.success-popup p{color:var(--muted);line-height:1.6;margin-bottom:16px;font-size:14px}
-.contact-info{background:#fff7df;border-radius:12px;padding:16px;margin-top:20px}
-.contact-info p{font-size:13px;color:#666;margin-bottom:8px}
-.contact-number{font-size:20px;font-weight:900;color:var(--green);display:block;margin-top:8px}
+/* LOGIN BOX */
+
+.login-box{
+  background:#fff;
+  border-radius:20px;
+  padding:40px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.1);
+  max-width:420px;
+  width:100%;
+  margin-top:80px;
+}
+
+.login-box h1{
+  font-size:27px;
+  font-weight:950;
+  margin-bottom:8px;
+  text-align:center;
+}
+
+.login-box > p{
+  color:var(--muted);
+  font-size:14px;
+  text-align:center;
+  margin-bottom:30px;
+  line-height:1.6;
+}
+
+/* INPUTS */
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+  color:var(--ink);
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:2px solid #e9e9e9;
+  border-radius:10px;
+  font-size:15px;
+  margin-bottom:20px;
+  transition:border-color 0.2s;
+}
+
+input:focus{
+  outline:0;
+  border-color:var(--yellow);
+  box-shadow:0 0 0 3px rgba(255,196,0,0.1);
+}
+
+/* BUTTONS */
+
+.btn-login{
+  width:100%;
+  background:var(--yellow);
+  border:0;
+  padding:16px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:15px;
+  cursor:pointer;
+  transition:all 0.2s;
+  box-shadow:0 4px 0 #d19e00;
+  color:#111;
+}
+
+.btn-login:hover{
+  background:#d49c00;
+  transform:translateY(-2px);
+  box-shadow:0 6px 0 #d19e00;
+}
+
+.btn-login:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 #d19e00;
+}
+
+.btn-login:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+  transform:none;
+}
+
+/* MESSAGES */
+
+.message{
+  margin-top:16px;
+  padding:12px;
+  border-radius:8px;
+  font-size:13px;
+  text-align:center;
+  display:none;
+  line-height:1.5;
+}
+
+.message.show{
+  display:block;
+}
+
+.message.error{
+  background:#fff0ed;
+  color:#a93225;
+  border:1px solid #ffccc7;
+}
+
+.message.success{
+  background:#eaf8ef;
+  color:#176534;
+  border:1px solid #b7eb8f;
+}
+
+/* BLOCKED SCREEN */
+
+.blocked-screen{
+  background:#fff;
+  border-radius:20px;
+  padding:40px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.1);
+  max-width:500px;
+  width:100%;
+  text-align:center;
+  display:none;
+  margin-top:70px;
+}
+
+.blocked-screen.show{
+  display:block;
+}
+
+.blocked-icon{
+  width:100px;
+  height:100px;
+  background:#ffe1e1;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 24px;
+  font-size:50px;
+}
+
+.blocked-screen h1{
+  font-size:26px;
+  color:var(--red);
+  margin-bottom:16px;
+}
+
+.blocked-screen p{
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:24px;
+}
+
+.contact-box{
+  background:#f9f9f9;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.contact-box p{
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:12px;
+  font-weight:900;
+}
+
+.call-btn{
+  display:block;
+  background:var(--green);
+  color:#fff;
+  padding:16px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:900;
+  font-size:18px;
+  margin-bottom:10px;
+}
+
+.call-btn:hover{
+  background:#0e5a32;
+}
+
+.btn-back{
+  background:#e9e9e9;
+  color:var(--ink);
+  border:0;
+  padding:14px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:14px;
+  cursor:pointer;
+  width:100%;
+}
+
+.btn-back:hover{
+  background:#d4d4d4;
+}
+
+/* REGISTRATION LINK */
+
+.request-link{
+  display:block;
+  text-align:center;
+  margin-top:20px;
+  color:var(--green);
+  font-size:14px;
+  font-weight:900;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+.request-link:hover{
+  text-decoration:underline;
+}
+
+/* MODALS */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  z-index:999;
+  padding:20px;
+  overflow-y:auto;
+}
+
+.modal.show{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-content{
+  background:#fff;
+  border-radius:20px;
+  padding:32px;
+  max-width:500px;
+  width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  margin:auto;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.modal-header h2{
+  font-size:22px;
+  font-weight:950;
+}
+
+.modal-close{
+  background:#e9e9e9;
+  border:0;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  font-size:18px;
+  cursor:pointer;
+  font-weight:900;
+  flex-shrink:0;
+}
+
+.modal-close:hover{
+  background:#d4d4d4;
+}
+
+textarea{
+  width:100%;
+  padding:14px;
+  border:2px solid #e9e9e9;
+  border-radius:10px;
+  font-size:14px;
+  margin-bottom:20px;
+  font-family:inherit;
+  resize:vertical;
+  min-height:80px;
+}
+
+textarea:focus{
+  outline:0;
+  border-color:var(--yellow);
+  box-shadow:0 0 0 3px rgba(255,196,0,0.1);
+}
+
+/* SUCCESS POPUP */
+
+.success-popup{
+  text-align:center;
+  padding:20px;
+}
+
+.success-icon{
+  width:80px;
+  height:80px;
+  background:#eaf8ef;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 20px;
+  font-size:40px;
+}
+
+.success-popup h3{
+  font-size:20px;
+  color:var(--green);
+  margin-bottom:12px;
+}
+
+.success-popup p{
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:16px;
+  font-size:14px;
+}
+
+.contact-info{
+  background:#fff7df;
+  border-radius:12px;
+  padding:16px;
+  margin-top:20px;
+}
+
+.contact-info p{
+  font-size:13px;
+  color:#666;
+  margin-bottom:8px;
+}
+
+.contact-number{
+  font-size:20px;
+  font-weight:900;
+  color:var(--green);
+  display:block;
+  margin-top:8px;
+}
+
+/* MOBILE */
 
 @media(max-width:600px){
-  .topbar{min-height:56px;padding:0 16px}
-  .brand img{width:36px;height:36px}
-  .brand strong{font-size:16px}
-  .brand small{font-size:8px}
-  .login-box{padding:30px 24px;margin-top:70px}
-  .login-box h1{font-size:24px}
-  .blocked-screen{padding:30px 24px}
+  .topbar{
+    min-height:56px;
+    padding:0 16px;
+  }
+
+  .brand img{
+    width:36px;
+    height:36px;
+  }
+
+  .brand strong{
+    font-size:16px;
+  }
+
+  .brand small{
+    font-size:8px;
+  }
+
+  .login-box{
+    padding:30px 24px;
+    margin-top:70px;
+  }
+
+  .login-box h1{
+    font-size:24px;
+  }
+
+  .blocked-screen{
+    padding:30px 24px;
+  }
+
+  .modal-content{
+    padding:24px;
+  }
+}
+
+@media(max-height:650px){
+  body{
+    justify-content:flex-start;
+  }
+
+  .login-box{
+    margin-top:85px;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
+
 <header class="topbar">
   <div class="brand">
-    <img src="logo.jpeg" alt="TSY Taxi">
-    <div><strong>TSY TAXI</strong><small>PARTNER PORTAL</small></div>
+    <img src="/logo.jpeg" alt="TSY TAXI Logo">
+    <div>
+      <strong>TSY TAXI</strong>
+      <small>PARTNER PORTAL</small>
+    </div>
   </div>
 </header>
 
-<!-- LOGIN BOX -->
+<!-- ================= LOGIN BOX ================= -->
+
 <div class="login-box" id="loginBox">
-  <h1>Partner Login</h1>
-  <p>Sign in with your Partner ID and password</p>
+
+  <h1>Driver &amp; Partner Login</h1>
+
+  <p>
+    Welcome to the official TSY TAXI Partner Portal.
+    Sign in securely to access your dashboard.
+  </p>
 
   <div style="background:#fff7df;border:1px solid #f2df9c;border-radius:8px;padding:10px;margin-bottom:16px;font-size:11px;color:#806000;line-height:1.5">
     ℹ️ <strong>Note:</strong> Logging in will replace any existing session. Make sure to logout from the dashboard before switching accounts.
   </div>
 
-  <label>Partner ID</label>
-  <input type="text" id="partnerId" placeholder="Enter Partner ID" autocomplete="username">
+  <label for="partnerId">Partner ID</label>
+  <input
+    type="text"
+    id="partnerId"
+    placeholder="Enter Partner ID"
+    autocomplete="username"
+  >
 
-  <label>Password</label>
-  <input type="password" id="password" placeholder="Enter password" autocomplete="current-password">
+  <label for="password">Password</label>
+  <input
+    type="password"
+    id="password"
+    placeholder="Enter password"
+    autocomplete="current-password"
+  >
 
-  <button class="btn-login" id="loginBtn">Login</button>
+  <button class="btn-login" id="loginBtn" type="button">
+    Login
+  </button>
 
-  <div id="loginMessage" class="message"></div>
+  <div id="loginMessage" class="message" role="status" aria-live="polite"></div>
 
-  <a class="request-link" id="requestLink">📝 Request for New Partner Account</a>
+  <a class="request-link" id="requestLink" role="button" tabindex="0">
+    📝 Request for New Partner Account
+  </a>
+
 </div>
 
-<!-- REGISTRATION MODAL -->
+<!-- ================= REGISTRATION MODAL ================= -->
+
 <div class="modal" id="registrationModal">
+
   <div class="modal-content">
+
     <div class="modal-header">
       <h2>Partner Registration</h2>
-      <button class="modal-close" id="closeRegModal">✕</button>
+      <button class="modal-close" id="closeRegModal" type="button" aria-label="Close registration">✕</button>
     </div>
 
-    <label>Full Name</label>
-    <input type="text" id="regName" placeholder="Enter your full name">
+    <label for="regName">Full Name</label>
+    <input type="text" id="regName" placeholder="Enter your full name" autocomplete="name">
 
-    <label>Phone Number</label>
-    <input type="tel" id="regPhone" placeholder="Enter phone number">
+    <label for="regPhone">Phone Number</label>
+    <input type="tel" id="regPhone" placeholder="Enter phone number" autocomplete="tel">
 
-    <label>Vehicle Number</label>
+    <label for="regVehicle">Vehicle Number</label>
     <input type="text" id="regVehicle" placeholder="Enter vehicle number" style="text-transform:uppercase">
 
-    <label>Address</label>
-    <textarea id="regAddress" placeholder="Enter your full address"></textarea>
+    <label for="regAddress">Address</label>
+    <textarea id="regAddress" placeholder="Enter your full address" autocomplete="street-address"></textarea>
 
-    <button class="btn-login" id="submitRequestBtn">Submit Request</button>
+    <button class="btn-login" id="submitRequestBtn" type="button">
+      Submit Request
+    </button>
 
-    <div id="regMessage" class="message"></div>
+    <div id="regMessage" class="message" role="status" aria-live="polite"></div>
+
   </div>
+
 </div>
 
-<!-- SUCCESS POPUP -->
+<!-- ================= SUCCESS POPUP ================= -->
+
 <div class="modal" id="successModal">
+
   <div class="modal-content">
+
     <div class="success-popup">
+
       <div class="success-icon">✓</div>
+
       <h3>Request Submitted Successfully!</h3>
-      <p>Thank you for your interest in joining TSY Taxi as a partner. Our team will review your request and reply within 5 hours.</p>
+
+      <p>
+        Thank you for your interest in joining TSY Taxi as a partner.
+        Our team will review your request and reply within 5 hours.
+      </p>
 
       <div class="contact-info">
         <p>For any enquiry, call:</p>
-        <span class="contact-number">📞 7639396869</span>
+        <a href="tel:7639396869" class="contact-number" style="text-decoration:none">
+          📞 7639396869
+        </a>
       </div>
 
-      <button class="btn-login" style="margin-top:24px" onclick="location.reload()">OK</button>
+      <button class="btn-login" style="margin-top:24px" id="successOkBtn" type="button">
+        OK
+      </button>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- BLOCKED SCREEN -->
+<!-- ================= BLOCKED SCREEN ================= -->
+
 <div class="blocked-screen" id="blockedScreen">
+
   <div class="blocked-icon">🚫</div>
+
   <h1>Account Blocked</h1>
-  <p>Your account has been deactivated due to some issue. Please contact the admin for assistance.</p>
+
+  <p>
+    Your account has been deactivated due to some issue.
+    Please contact the admin for assistance.
+  </p>
 
   <div class="contact-box">
+
     <p>Contact Admin</p>
-    <a href="tel:7639396869" class="call-btn">📞 Call: 7639396869</a>
-    <p style="font-size:12px;line-height:1.5">Explain your issue and the admin will help you reactivate your account.</p>
+
+    <a href="tel:7639396869" class="call-btn">
+      📞 Call: 7639396869
+    </a>
+
+    <p style="font-size:12px;line-height:1.5">
+      Explain your issue and the admin will help you reactivate your account.
+    </p>
+
   </div>
 
-  <button class="btn-back" onclick="location.reload()">← Back to Login</button>
+  <button class="btn-back" id="backToLoginBtn" type="button">
+    ← Back to Login
+  </button>
+
 </div>
 
+<!-- ================= FIREBASE ================= -->
+
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+
+/* FIREBASE CONFIG - PRESERVED */
 
 const firebaseConfig = {
   apiKey: "AIzaSyDg1rboXdFIWnyxH3nw3NV0UGk8vDOzUJc",
@@ -189,115 +708,207 @@ const db = getFirestore(app);
 
 const $ = id => document.getElementById(id);
 
-// AUTO-LOGIN CHECK
-(async function checkAutoLogin() {
-  const savedSession = localStorage.getItem("tsyPartnerSession");
-  if (savedSession) {
-    try {
-      const { partnerId } = JSON.parse(savedSession);
-      const partnerDoc = await getDoc(doc(db, "partners", partnerId));
 
-      if (partnerDoc.exists() && partnerDoc.data().active !== false) {
-        // Valid session, redirect to dashboard
-        window.location.replace("partner-dashboard.html");
-        return;
-      }
-    } catch (error) {
-      console.error("Auto-login check failed:", error);
+/* ================= AUTO LOGIN ================= */
+
+let loginInProgress = false;
+
+(async function checkAutoLogin(){
+
+  const savedSession = localStorage.getItem("tsyPartnerSession");
+
+  if(!savedSession) return;
+
+  try{
+
+    const { partnerId } = JSON.parse(savedSession);
+
+    if(!partnerId){
+      localStorage.removeItem("tsyPartnerSession");
+      return;
     }
+
+    const partnerDoc = await getDoc(doc(db,"partners",partnerId));
+
+    if(partnerDoc.exists() && partnerDoc.data().active !== false){
+
+      window.location.replace("partner-dashboard.html");
+      return;
+
+    }
+
+    localStorage.removeItem("tsyPartnerSession");
+
+  }catch(error){
+
+    console.error("Auto-login check failed:",error);
+
   }
+
 })();
 
-// LOGIN
-$("loginBtn").addEventListener("click", async () => {
+
+/* ================= LOGIN ================= */
+
+$("loginBtn").addEventListener("click",async()=>{
+
+  if(loginInProgress) return;
+
   const partnerId = $("partnerId").value.trim();
   const password = $("password").value;
 
-  if (!partnerId || !password) {
-    showMessage("Enter Partner ID and password.", "error");
+  if(!partnerId || !password){
+
+    showMessage("Enter Partner ID and password.","error");
     return;
+
   }
 
-  // Clear any existing session before new login
+  loginInProgress = true;
+
   localStorage.removeItem("tsyPartnerSession");
 
   $("loginBtn").disabled = true;
-  showMessage("Logging in...", "");
+  $("loginBtn").textContent = "Logging in...";
 
-  try {
-    const partnerDoc = await getDoc(doc(db, "partners", partnerId));
+  showMessage("Logging in...","");
 
-    if (!partnerDoc.exists()) {
+  try{
+
+    const partnerDoc = await getDoc(doc(db,"partners",partnerId));
+
+    if(!partnerDoc.exists()){
       throw new Error("Partner ID not found.");
     }
 
     const partnerData = partnerDoc.data();
 
-    if (partnerData.password !== password) {
+    if(partnerData.password !== password){
       throw new Error("Incorrect password.");
     }
 
-    // Check if account is blocked
-    if (partnerData.active === false) {
+    if(partnerData.active === false){
+
       $("loginBox").style.display = "none";
       $("blockedScreen").classList.add("show");
+
       return;
+
     }
 
-    // Save session
-    localStorage.setItem("tsyPartnerSession", JSON.stringify({
-      partnerId: partnerId,
-      id: partnerDoc.id
+    localStorage.setItem("tsyPartnerSession",JSON.stringify({
+      partnerId:partnerId,
+      id:partnerDoc.id
     }));
 
-    showMessage("Login successful! Redirecting...", "success");
+    showMessage("Login successful! Redirecting...","success");
 
-    setTimeout(() => {
-      window.location.href = "partner-dashboard.html";
-    }, 800);
+    setTimeout(()=>{
 
-  } catch (error) {
-    showMessage(error.message, "error");
-  } finally {
+      window.location.replace("partner-dashboard.html");
+
+    },800);
+
+  }catch(error){
+
+    console.error("Login error:",error);
+
+    showMessage(error.message || "Login failed. Please try again.","error");
+
+  }finally{
+
+    loginInProgress = false;
+
     $("loginBtn").disabled = false;
+    $("loginBtn").textContent = "Login";
+
   }
+
 });
 
-// Enter key to login
-$("password").addEventListener("keydown", e => {
-  if (e.key === "Enter") $("loginBtn").click();
+
+/* ENTER KEY LOGIN */
+
+$("password").addEventListener("keydown",e=>{
+
+  if(e.key === "Enter"){
+    $("loginBtn").click();
+  }
+
 });
 
-function showMessage(text, type) {
+$("partnerId").addEventListener("keydown",e=>{
+
+  if(e.key === "Enter"){
+    $("password").focus();
+  }
+
+});
+
+
+/* ================= LOGIN MESSAGE ================= */
+
+function showMessage(text,type){
+
   const msg = $("loginMessage");
+
   msg.textContent = text;
   msg.className = "message " + type;
-  if (text) msg.classList.add("show");
+
+  if(text){
+    msg.classList.add("show");
+  }
+
 }
 
-// REGISTRATION MODAL
+
+/* ================= REGISTRATION MODAL ================= */
+
 const requestLink = $("requestLink");
 const registrationModal = $("registrationModal");
 const closeRegModal = $("closeRegModal");
 const submitRequestBtn = $("submitRequestBtn");
 const successModal = $("successModal");
 
-requestLink.addEventListener("click", () => {
+
+function openRegistration(){
+
   registrationModal.classList.add("show");
-});
 
-closeRegModal.addEventListener("click", () => {
+}
+
+function closeRegistration(){
+
   registrationModal.classList.remove("show");
-});
 
-registrationModal.addEventListener("click", (e) => {
-  if (e.target === registrationModal) {
-    registrationModal.classList.remove("show");
+}
+
+requestLink.addEventListener("click",openRegistration);
+
+requestLink.addEventListener("keydown",e=>{
+
+  if(e.key === "Enter" || e.key === " "){
+    e.preventDefault();
+    openRegistration();
   }
+
 });
 
-// SUBMIT REGISTRATION REQUEST
-submitRequestBtn.addEventListener("click", async () => {
+closeRegModal.addEventListener("click",closeRegistration);
+
+registrationModal.addEventListener("click",e=>{
+
+  if(e.target === registrationModal){
+    closeRegistration();
+  }
+
+});
+
+
+/* ================= SUBMIT REGISTRATION ================= */
+
+submitRequestBtn.addEventListener("click",async()=>{
+
   const name = $("regName").value.trim();
   const phone = $("regPhone").value.trim();
   const vehicle = $("regVehicle").value.trim().toUpperCase();
@@ -305,46 +916,101 @@ submitRequestBtn.addEventListener("click", async () => {
 
   const regMessage = $("regMessage");
 
-  if (!name || !phone || !vehicle || !address) {
-    regMessage.textContent = "Please fill all fields";
+  if(!name || !phone || !vehicle || !address){
+
+    regMessage.textContent = "Please fill all fields.";
     regMessage.className = "message error show";
+
     return;
+
   }
 
-  if (phone.length < 10) {
-    regMessage.textContent = "Please enter valid phone number";
+  const digitsOnly = phone.replace(/\D/g,"");
+
+  if(digitsOnly.length < 10 || digitsOnly.length > 15){
+
+    regMessage.textContent = "Please enter a valid phone number.";
     regMessage.className = "message error show";
+
     return;
+
   }
 
   submitRequestBtn.disabled = true;
   submitRequestBtn.textContent = "Submitting...";
-  regMessage.style.display = "none";
 
-  try {
-    const { collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js");
+  regMessage.className = "message";
+  regMessage.textContent = "";
 
-    await addDoc(collection(db, "partnerRequests"), {
-      name: name,
-      phone: phone,
-      vehicleNumber: vehicle,
-      address: address,
-      status: "PENDING",
-      requestedAt: serverTimestamp()
+  try{
+
+    await addDoc(collection(db,"partnerRequests"),{
+
+      name:name,
+      phone:phone,
+      vehicleNumber:vehicle,
+      address:address,
+      status:"PENDING",
+      requestedAt:serverTimestamp()
+
     });
 
     registrationModal.classList.remove("show");
     successModal.classList.add("show");
 
-  } catch (error) {
-    console.error("Registration error:", error);
+    $("regName").value = "";
+    $("regPhone").value = "";
+    $("regVehicle").value = "";
+    $("regAddress").value = "";
+
+  }catch(error){
+
+    console.error("Registration error:",error);
+
     regMessage.textContent = "Error: " + error.message;
     regMessage.className = "message error show";
-  } finally {
+
+  }finally{
+
     submitRequestBtn.disabled = false;
     submitRequestBtn.textContent = "Submit Request";
+
   }
+
 });
+
+
+/* ================= SUCCESS POPUP ================= */
+
+$("successOkBtn").addEventListener("click",()=>{
+
+  successModal.classList.remove("show");
+
+});
+
+
+/* ================= BACK TO LOGIN ================= */
+
+$("backToLoginBtn").addEventListener("click",()=>{
+
+  location.reload();
+
+});
+
+
+/* ================= ESCAPE KEY ================= */
+
+document.addEventListener("keydown",e=>{
+
+  if(e.key === "Escape"){
+
+    registrationModal.classList.remove("show");
+    successModal.classList.remove("show");
+
+  }
+
+});
+
 </script>
 
 </body>
