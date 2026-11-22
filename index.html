@@ -6,38 +6,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#ffc400">
 
-<title>TSY TAXI Driver  Login | Driver Portal</title>
+<title>TSY TAXI Driver Login | Partner Portal – Thisayanvilai</title>
 
-<meta name="description" content="Welcome to the official TSY TAXI Partner Portal. Registered auto drivers can securely log in, manage bookings, receive ride requests and access their driver dashboard in Thisayanvilai and nearby areas.">
+<meta name="description" content="TSY TAXI official driver and partner login portal. Registered auto drivers can sign in to manage bookings, receive ride requests and access their partner dashboard in Thisayanvilai and nearby areas.">
 
-<!-- Private driver portal: do not show in Google search -->
-<meta name="robots" content="noindex, follow">
-<meta name="googlebot" content="noindex, follow">
+<!-- Allow Google to index this page -->
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="googlebot" content="index, follow">
 
-<!-- Google Search Console Verification -->
+<!-- Google Search Console verification: keep only once -->
 <meta name="google-site-verification" content="bVNVJK2f28V5aBB2K8FwSc790U2mDbUxHHRavWoqAfI">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://tsytaxi.vercel.app/partner-login.html">
 
 <!-- Favicon -->
 <link rel="icon" type="image/jpeg" href="/logo.jpeg">
-<link rel="shortcut icon" href="/logo.jpeg">
+<link rel="shortcut icon" type="image/jpeg" href="/logo.jpeg">
 <link rel="apple-touch-icon" href="/logo.jpeg">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="TSY TAXI">
-<meta property="og:title" content="TSY TAXI Partner Login">
-<meta property="og:description" content="Secure login portal for TSY TAXI registered drivers and partners. Manage your rides and access your driver dashboard.">
+<meta property="og:title" content="TSY TAXI Driver Login | Partner Portal">
+<meta property="og:description" content="Official TSY TAXI partner portal for registered auto drivers. Sign in to manage bookings and ride requests in Thisayanvilai and nearby areas.">
 <meta property="og:url" content="https://tsytaxi.vercel.app/partner-login.html">
 <meta property="og:image" content="https://tsytaxi.vercel.app/logo.jpeg">
+<meta property="og:image:alt" content="TSY TAXI logo">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TSY TAXI Partner Login">
-<meta name="twitter:description" content="Secure driver and partner login portal for TSY TAXI.">
+<meta name="twitter:title" content="TSY TAXI Driver Login">
+<meta name="twitter:description" content="Official TSY TAXI driver and partner login portal.">
 <meta name="twitter:image" content="https://tsytaxi.vercel.app/logo.jpeg">
 
 <style>
-:root{
+:root {
   --yellow:#ffc400;
   --ink:#111;
   --muted:#777;
@@ -45,19 +49,19 @@
   --red:#e34c38;
 }
 
-*{
+* {
   box-sizing:border-box;
   margin:0;
   padding:0;
 }
 
-html,body{
+html,body {
   min-height:100%;
   font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
   color:var(--ink);
 }
 
-body{
+body {
   min-height:100svh;
   background:radial-gradient(circle at 50% 0,#fff4c4 0,#fff 42%,#f4f4f2 100%);
   display:flex;
@@ -67,7 +71,7 @@ body{
   padding:20px;
 }
 
-.topbar{
+.topbar {
   position:fixed;
   top:0;
   left:0;
@@ -83,13 +87,13 @@ body{
   z-index:100;
 }
 
-.brand{
+.brand {
   display:flex;
   align-items:center;
   gap:10px;
 }
 
-.brand img{
+.brand img {
   width:43px;
   height:43px;
   border-radius:50%;
@@ -98,14 +102,14 @@ body{
   padding:2px;
 }
 
-.brand strong{
+.brand strong {
   display:block;
   font-size:18px;
   font-weight:950;
   letter-spacing:1.3px;
 }
 
-.brand small{
+.brand small {
   display:block;
   color:var(--yellow);
   font-size:9px;
@@ -114,8 +118,7 @@ body{
   margin-top:4px;
 }
 
-.login-box,
-.blocked-screen{
+.login-box,.blocked-screen {
   background:#fff;
   border-radius:20px;
   padding:40px;
@@ -125,21 +128,21 @@ body{
   margin-top:80px;
 }
 
-.login-box h1{
+.login-box h1 {
   font-size:28px;
   font-weight:950;
   margin-bottom:8px;
   text-align:center;
 }
 
-.login-box>p{
+.login-box>p {
   color:var(--muted);
   font-size:14px;
   text-align:center;
   margin-bottom:30px;
 }
 
-label{
+label {
   display:block;
   font-size:12px;
   font-weight:900;
@@ -147,7 +150,7 @@ label{
   color:var(--ink);
 }
 
-input{
+input {
   width:100%;
   padding:14px;
   border:2px solid #e9e9e9;
@@ -157,22 +160,21 @@ input{
   transition:border-color .2s;
 }
 
-input:focus,
-textarea:focus{
+input:focus,textarea:focus {
   outline:0;
   border-color:var(--yellow);
   box-shadow:0 0 0 3px rgba(255,196,0,.1);
 }
 
-.password-wrap{
+.password-wrap {
   position:relative;
 }
 
-.password-wrap input{
+.password-wrap input {
   padding-right:75px;
 }
 
-.toggle-password{
+.toggle-password {
   position:absolute;
   right:10px;
   top:10px;
@@ -185,7 +187,7 @@ textarea:focus{
   font-weight:800;
 }
 
-.btn-login{
+.btn-login {
   width:100%;
   background:var(--yellow);
   color:#111;
@@ -199,24 +201,24 @@ textarea:focus{
   box-shadow:0 4px 0 #d19e00;
 }
 
-.btn-login:hover{
+.btn-login:hover {
   background:#eab300;
   transform:translateY(-2px);
   box-shadow:0 6px 0 #d19e00;
 }
 
-.btn-login:active{
+.btn-login:active {
   transform:translateY(2px);
   box-shadow:0 2px 0 #d19e00;
 }
 
-.btn-login:disabled{
+.btn-login:disabled {
   opacity:.5;
   cursor:not-allowed;
   transform:none;
 }
 
-.message{
+.message {
   margin-top:16px;
   padding:12px;
   border-radius:8px;
@@ -226,33 +228,33 @@ textarea:focus{
   overflow-wrap:anywhere;
 }
 
-.message.show{
+.message.show {
   display:block;
 }
 
-.message.error{
+.message.error {
   background:#fff0ed;
   color:#a93225;
   border:1px solid #ffccc7;
 }
 
-.message.success{
+.message.success {
   background:#eaf8ef;
   color:#176534;
   border:1px solid #b7eb8f;
 }
 
-.blocked-screen{
+.blocked-screen {
   max-width:500px;
   text-align:center;
   display:none;
 }
 
-.blocked-screen.show{
+.blocked-screen.show {
   display:block;
 }
 
-.blocked-icon{
+.blocked-icon {
   width:100px;
   height:100px;
   background:#ffe1e1;
@@ -264,33 +266,33 @@ textarea:focus{
   font-size:50px;
 }
 
-.blocked-screen h1{
+.blocked-screen h1 {
   font-size:26px;
   color:var(--red);
   margin-bottom:16px;
 }
 
-.blocked-screen p{
+.blocked-screen p {
   color:var(--muted);
   line-height:1.6;
   margin-bottom:24px;
 }
 
-.contact-box{
+.contact-box {
   background:#f9f9f9;
   border-radius:12px;
   padding:20px;
   margin-bottom:20px;
 }
 
-.contact-box p{
+.contact-box p {
   font-size:13px;
   color:var(--muted);
   margin-bottom:12px;
   font-weight:900;
 }
 
-.call-btn{
+.call-btn {
   display:block;
   background:var(--green);
   color:#fff;
@@ -302,11 +304,11 @@ textarea:focus{
   margin-bottom:10px;
 }
 
-.call-btn:hover{
+.call-btn:hover {
   background:#0e5a32;
 }
 
-.btn-back{
+.btn-back {
   background:#e9e9e9;
   color:var(--ink);
   border:0;
@@ -318,11 +320,11 @@ textarea:focus{
   width:100%;
 }
 
-.btn-back:hover{
+.btn-back:hover {
   background:#d4d4d4;
 }
 
-.request-link{
+.request-link {
   display:block;
   text-align:center;
   margin-top:20px;
@@ -333,11 +335,11 @@ textarea:focus{
   cursor:pointer;
 }
 
-.request-link:hover{
+.request-link:hover {
   text-decoration:underline;
 }
 
-.modal{
+.modal {
   display:none;
   position:fixed;
   inset:0;
@@ -347,13 +349,13 @@ textarea:focus{
   overflow-y:auto;
 }
 
-.modal.show{
+.modal.show {
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
-.modal-content{
+.modal-content {
   background:#fff;
   border-radius:20px;
   padding:32px;
@@ -364,19 +366,19 @@ textarea:focus{
   overflow-y:auto;
 }
 
-.modal-header{
+.modal-header {
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:24px;
 }
 
-.modal-header h2{
+.modal-header h2 {
   font-size:22px;
   font-weight:950;
 }
 
-.modal-close{
+.modal-close {
   background:#e9e9e9;
   border:0;
   width:32px;
@@ -387,11 +389,11 @@ textarea:focus{
   font-weight:900;
 }
 
-.modal-close:hover{
+.modal-close:hover {
   background:#d4d4d4;
 }
 
-textarea{
+textarea {
   width:100%;
   padding:14px;
   border:2px solid #e9e9e9;
@@ -403,12 +405,12 @@ textarea{
   min-height:80px;
 }
 
-.success-popup{
+.success-popup {
   text-align:center;
   padding:20px;
 }
 
-.success-icon{
+.success-icon {
   width:80px;
   height:80px;
   background:#eaf8ef;
@@ -420,79 +422,80 @@ textarea{
   font-size:40px;
 }
 
-.success-popup h3{
+.success-popup h3 {
   font-size:20px;
   color:var(--green);
   margin-bottom:12px;
 }
 
-.success-popup p{
+.success-popup p {
   color:var(--muted);
   line-height:1.6;
   margin-bottom:16px;
   font-size:14px;
 }
 
-.contact-info{
+.contact-info {
   background:#fff7df;
   border-radius:12px;
   padding:16px;
   margin-top:20px;
 }
 
-.contact-info p{
+.contact-info p {
   font-size:13px;
   color:#666;
   margin-bottom:8px;
 }
 
-.contact-number{
+.contact-number {
   font-size:20px;
   font-weight:900;
   color:var(--green);
   display:block;
   margin-top:8px;
+  text-decoration:none;
 }
 
-@media(max-width:600px){
-  .topbar{
+@media(max-width:600px) {
+  .topbar {
     min-height:56px;
     padding:0 16px;
   }
 
-  .brand img{
+  .brand img {
     width:36px;
     height:36px;
   }
 
-  .brand strong{
+  .brand strong {
     font-size:16px;
   }
 
-  .brand small{
+  .brand small {
     font-size:8px;
   }
 
-  .login-box{
+  .login-box {
     padding:30px 24px;
     margin-top:70px;
   }
 
-  .login-box h1{
+  .login-box h1 {
     font-size:24px;
   }
 
-  .blocked-screen{
+  .blocked-screen {
     padding:30px 24px;
   }
 
-  .modal-content{
+  .modal-content {
     padding:24px 20px;
   }
 }
 
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
     scroll-behavior:auto!important;
     transition:none!important;
   }
@@ -504,7 +507,7 @@ textarea{
 
 <header class="topbar">
   <div class="brand">
-    <img src="/logo.jpeg" alt="TSY TAXI logo" onerror="this.style.display='none'">
+    <img src="/logo.jpeg" alt="TSY TAXI logo">
     <div>
       <strong>TSY TAXI</strong>
       <small>PARTNER PORTAL</small>
@@ -543,6 +546,7 @@ textarea{
         autocomplete="current-password"
         required
       >
+
       <button type="button" class="toggle-password" id="togglePassword">
         Show
       </button>
@@ -668,7 +672,6 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-
 /* =========================================
    FIREBASE CONFIGURATION
    EXISTING PROJECT PRESERVED
@@ -688,42 +691,41 @@ const db = getFirestore(app);
 
 const $ = id => document.getElementById(id);
 
-
 /* =========================================
    AUTO LOGIN CHECK
 ========================================= */
 
 let autoLoginChecking = true;
 
-(async function checkAutoLogin(){
+(async function checkAutoLogin() {
 
   const savedSession = localStorage.getItem("tsyPartnerSession");
 
-  if(!savedSession){
+  if (!savedSession) {
     autoLoginChecking = false;
     return;
   }
 
-  try{
+  try {
 
     const session = JSON.parse(savedSession);
     const partnerId = session.partnerId;
 
-    if(!partnerId){
+    if (!partnerId) {
       localStorage.removeItem("tsyPartnerSession");
       return;
     }
 
-    const partnerDoc = await getDoc(doc(db,"partners",partnerId));
+    const partnerDoc = await getDoc(doc(db, "partners", partnerId));
 
-    if(!partnerDoc.exists()){
+    if (!partnerDoc.exists()) {
       localStorage.removeItem("tsyPartnerSession");
       return;
     }
 
     const partnerData = partnerDoc.data();
 
-    if(partnerData.active === false){
+    if (partnerData.active === false) {
       localStorage.removeItem("tsyPartnerSession");
       $("loginBox").style.display = "none";
       $("blockedScreen").classList.add("show");
@@ -732,9 +734,9 @@ let autoLoginChecking = true;
 
     window.location.replace("partner-dashboard.html");
 
-  }catch(error){
+  } catch (error) {
 
-    console.error("Auto-login check failed:",error);
+    console.error("Auto-login check failed:", error);
 
     showMessage(
       "Could not verify your saved session. Please log in again.",
@@ -743,7 +745,7 @@ let autoLoginChecking = true;
 
     localStorage.removeItem("tsyPartnerSession");
 
-  }finally{
+  } finally {
 
     autoLoginChecking = false;
 
@@ -751,15 +753,13 @@ let autoLoginChecking = true;
 
 })();
 
-
 /* =========================================
    PASSWORD VISIBILITY
 ========================================= */
 
-$("togglePassword").addEventListener("click",()=>{
+$("togglePassword").addEventListener("click", () => {
 
   const passwordInput = $("password");
-
   const isPassword = passwordInput.type === "password";
 
   passwordInput.type = isPassword ? "text" : "password";
@@ -768,54 +768,52 @@ $("togglePassword").addEventListener("click",()=>{
 
 });
 
-
 /* =========================================
    LOGIN
 ========================================= */
 
-$("loginForm").addEventListener("submit",async(event)=>{
+$("loginForm").addEventListener("submit", async (event) => {
 
   event.preventDefault();
 
-  if(autoLoginChecking){
-    showMessage("Checking saved session. Please wait.","error");
+  if (autoLoginChecking) {
+    showMessage("Checking saved session. Please wait.", "error");
     return;
   }
 
   const partnerId = $("partnerId").value.trim();
   const password = $("password").value;
 
-  if(!partnerId || !password){
-    showMessage("Enter Partner ID and password.","error");
+  if (!partnerId || !password) {
+    showMessage("Enter Partner ID and password.", "error");
     return;
   }
 
   $("loginBtn").disabled = true;
   $("loginBtn").textContent = "Logging in...";
 
-  showMessage("Logging in...","");
+  showMessage("Logging in...", "");
 
-  try{
+  try {
 
     // Remove previous account session before switching accounts.
     localStorage.removeItem("tsyPartnerSession");
 
-    const partnerDoc = await getDoc(doc(db,"partners",partnerId));
+    const partnerDoc = await getDoc(doc(db, "partners", partnerId));
 
-    if(!partnerDoc.exists()){
+    if (!partnerDoc.exists()) {
       throw new Error("Partner ID not found.");
     }
 
     const partnerData = partnerDoc.data();
 
-    if(partnerData.password !== password){
+    if (partnerData.password !== password) {
       throw new Error("Incorrect password.");
     }
 
-    if(partnerData.active === false){
+    if (partnerData.active === false) {
 
       $("loginBox").style.display = "none";
-
       $("blockedScreen").classList.add("show");
 
       return;
@@ -824,31 +822,31 @@ $("loginForm").addEventListener("submit",async(event)=>{
     localStorage.setItem(
       "tsyPartnerSession",
       JSON.stringify({
-        partnerId:partnerId,
-        id:partnerDoc.id
+        partnerId: partnerId,
+        id: partnerDoc.id
       })
     );
 
-    showMessage("Login successful! Redirecting...","success");
+    showMessage("Login successful! Redirecting...", "success");
 
     $("loginBtn").textContent = "Success";
 
-    setTimeout(()=>{
+    setTimeout(() => {
       window.location.replace("partner-dashboard.html");
-    },800);
+    }, 800);
 
-  }catch(error){
+  } catch (error) {
 
-    console.error("Login error:",error);
+    console.error("Login error:", error);
 
     showMessage(
       error.message || "Login failed. Please try again.",
       "error"
     );
 
-  }finally{
+  } finally {
 
-    if($("loginBtn").textContent !== "Success"){
+    if ($("loginBtn").textContent !== "Success") {
       $("loginBtn").disabled = false;
       $("loginBtn").textContent = "Login";
     }
@@ -857,199 +855,167 @@ $("loginForm").addEventListener("submit",async(event)=>{
 
 });
 
-
 /* =========================================
    LOGIN MESSAGE
 ========================================= */
 
-function showMessage(text,type){
+function showMessage(text, type) {
 
   const msg = $("loginMessage");
 
   msg.textContent = text;
-
   msg.className = "message";
 
-  if(type){
+  if (type) {
     msg.classList.add(type);
   }
 
-  if(text){
+  if (text) {
     msg.classList.add("show");
   }
 
 }
-
 
 /* =========================================
    REGISTRATION MODAL
 ========================================= */
 
 const requestLink = $("requestLink");
-
 const registrationModal = $("registrationModal");
-
 const closeRegModal = $("closeRegModal");
-
 const successModal = $("successModal");
 
-
-requestLink.addEventListener("click",(event)=>{
+requestLink.addEventListener("click", (event) => {
 
   event.preventDefault();
-
   registrationModal.classList.add("show");
 
 });
 
-
-closeRegModal.addEventListener("click",()=>{
+closeRegModal.addEventListener("click", () => {
 
   registrationModal.classList.remove("show");
 
 });
 
+registrationModal.addEventListener("click", (event) => {
 
-registrationModal.addEventListener("click",(event)=>{
-
-  if(event.target === registrationModal){
+  if (event.target === registrationModal) {
     registrationModal.classList.remove("show");
   }
 
 });
-
 
 /* =========================================
    REGISTRATION REQUEST
    FIRESTORE COLLECTION: partnerRequests
 ========================================= */
 
-$("registrationForm").addEventListener("submit",async(event)=>{
+$("registrationForm").addEventListener("submit", async (event) => {
 
   event.preventDefault();
 
   const name = $("regName").value.trim();
-
   const phone = $("regPhone").value.trim();
-
   const vehicle = $("regVehicle").value.trim().toUpperCase();
-
   const address = $("regAddress").value.trim();
 
   const regMessage = $("regMessage");
+  const cleanPhone = phone.replace(/\D/g, "");
 
-  const cleanPhone = phone.replace(/\D/g,"");
-
-  if(!name || !phone || !vehicle || !address){
+  if (!name || !phone || !vehicle || !address) {
 
     regMessage.textContent = "Please fill all fields.";
-
     regMessage.className = "message error show";
 
     return;
-
   }
 
-  if(cleanPhone.length < 10 || cleanPhone.length > 15){
+  if (cleanPhone.length < 10 || cleanPhone.length > 15) {
 
     regMessage.textContent = "Please enter a valid phone number.";
-
     regMessage.className = "message error show";
 
     return;
-
   }
 
   const submitButton = $("submitRequestBtn");
 
   submitButton.disabled = true;
-
   submitButton.textContent = "Submitting...";
 
   regMessage.className = "message";
 
-  try{
+  try {
 
-    await addDoc(collection(db,"partnerRequests"),{
+    await addDoc(collection(db, "partnerRequests"), {
 
-      name:name,
-
-      phone:phone,
-
-      vehicleNumber:vehicle,
-
-      address:address,
-
-      status:"PENDING",
-
-      requestedAt:serverTimestamp()
+      name: name,
+      phone: phone,
+      vehicleNumber: vehicle,
+      address: address,
+      status: "PENDING",
+      requestedAt: serverTimestamp()
 
     });
 
     registrationModal.classList.remove("show");
-
     successModal.classList.add("show");
 
     $("registrationForm").reset();
 
-  }catch(error){
+  } catch (error) {
 
-    console.error("Registration error:",error);
+    console.error("Registration error:", error);
 
     regMessage.textContent =
       "Unable to submit request: " + (error.message || "Please try again.");
 
     regMessage.className = "message error show";
 
-  }finally{
+  } finally {
 
     submitButton.disabled = false;
-
     submitButton.textContent = "Submit Request";
 
   }
 
 });
 
-
 /* =========================================
    SUCCESS POPUP
 ========================================= */
 
-$("successOkBtn").addEventListener("click",()=>{
+$("successOkBtn").addEventListener("click", () => {
 
   successModal.classList.remove("show");
 
 });
 
-
 /* =========================================
    BACK TO LOGIN
 ========================================= */
 
-$("backToLoginBtn").addEventListener("click",()=>{
+$("backToLoginBtn").addEventListener("click", () => {
 
   $("blockedScreen").classList.remove("show");
-
   $("loginBox").style.display = "block";
 
   $("loginForm").reset();
 
-  showMessage("","");
+  showMessage("", "");
 
 });
-
 
 /* =========================================
    ESCAPE KEY CLOSE MODAL
 ========================================= */
 
-document.addEventListener("keydown",(event)=>{
+document.addEventListener("keydown", (event) => {
 
-  if(event.key === "Escape"){
+  if (event.key === "Escape") {
 
     registrationModal.classList.remove("show");
-
     successModal.classList.remove("show");
 
   }
