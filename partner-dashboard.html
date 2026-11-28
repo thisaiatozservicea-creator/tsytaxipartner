@@ -157,7 +157,16 @@ button.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
 .trip-request h3{font-size:18px;margin-bottom:16px;color:#e67700;display:flex;align-items:center;gap:8px}
 .trip-info{background:#fff;border-radius:8px;padding:12px;margin-bottom:16px}
 .trip-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0}
+
 .trip-row:last-child{border-bottom:0}
+.customer-contact{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f7f7f7;border:1px solid #e8e8e8;border-radius:9px;padding:11px 12px;margin-top:10px}
+.customer-contact-info{min-width:0;display:flex;flex-direction:column;gap:4px}
+.customer-contact-label{font-size:10px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.5px}
+.customer-contact-number{font-size:14px;font-weight:900;color:var(--ink);overflow-wrap:anywhere}
+.customer-call-btn{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--green);color:#fff;text-decoration:none;border-radius:8px;padding:10px 14px;font-size:12px;font-weight:900}
+.customer-call-btn:hover{background:#0e5a32}
+.customer-call-btn[hidden]{display:none}
+
 .trip-label{font-size:12px;color:var(--muted);font-weight:700}
 .trip-value{font-size:14px;font-weight:900}
 .trip-route{background:#fff;border-radius:8px;padding:12px;margin-bottom:16px}
@@ -362,6 +371,13 @@ button.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
         <span class="trip-label">Passenger</span>
         <span class="trip-value" id="tripPassenger">-</span>
       </div>
+      <div class="customer-contact">
+        <div class="customer-contact-info">
+          <span class="customer-contact-label">Customer phone</span>
+          <span class="customer-contact-number" id="tripCustomerPhone">Phone number unavailable</span>
+        </div>
+        <a class="customer-call-btn" id="tripCallBtn" href="#" hidden>📞 CALL NOW</a>
+      </div>
     </div>
     <div class="trip-route">
       <div class="trip-route-item">
@@ -414,6 +430,13 @@ button.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
       <div class="trip-row">
         <span class="trip-label">Fare</span>
         <span class="trip-value" id="activeFare">₹0</span>
+      </div>
+      <div class="customer-contact">
+        <div class="customer-contact-info">
+          <span class="customer-contact-label">Customer phone</span>
+          <span class="customer-contact-number" id="activeCustomerPhone">Phone number unavailable</span>
+        </div>
+        <a class="customer-call-btn" id="activeCallBtn" href="#" hidden>📞 CALL NOW</a>
       </div>
     </div>
 
@@ -918,6 +941,48 @@ async function startPartnerListener() {
   }
 }
 
+// Read the customer phone from the booking data and show a working phone dialler link.
+function setCustomerContact(booking, prefix) {
+  const passenger = booking.passenger || {};
+  const customer = booking.customer || {};
+  const rawPhone =
+    passenger.phone ||
+    passenger.phoneNumber ||
+    passenger.mobile ||
+    passenger.mobileNumber ||
+    passenger.contactNumber ||
+    customer.phone ||
+    customer.phoneNumber ||
+    customer.mobile ||
+    customer.mobileNumber ||
+    booking.customerPhone ||
+    booking.customerPhoneNumber ||
+    booking.passengerPhone ||
+    booking.phoneNumber ||
+    booking.phone ||
+    booking.mobileNumber ||
+    booking.mobile ||
+    "";
+
+  const phone = String(rawPhone).trim();
+  const phoneEl = $(prefix + "CustomerPhone");
+  const callBtn = $(prefix + "CallBtn");
+  const digits = phone.replace(/\\D/g, "");
+
+  if (phoneEl) phoneEl.textContent = phone || "Phone number unavailable";
+
+  // Do not expose a call action for empty or clearly invalid phone values.
+  if (callBtn) {
+    if (phone && digits.length >= 7) {
+      callBtn.href = "tel:" + phone.replace(/[^0-9+]/g, "");
+      callBtn.hidden = false;
+    } else {
+      callBtn.removeAttribute("href");
+      callBtn.hidden = true;
+    }
+  }
+}
+
 // TRIP LISTENER
 let currentTripId = null;
 let tripListener = null;
@@ -966,6 +1031,7 @@ async function startTripListener() {
       $("tripDistance").textContent = booking.distanceKm.toFixed(2) + " km";
       $("tripFare").textContent = "₹" + booking.fare.toFixed(2);
       $("tripPassenger").textContent = booking.passenger?.name || "Customer";
+      setCustomerContact(booking, "trip");
       $("tripPickup").textContent = booking.pickup?.area || booking.pickup?.displayName || "Pickup location";
       $("tripDrop").textContent = booking.destination?.area || booking.destination?.displayName || "Drop location";
 
@@ -978,6 +1044,7 @@ async function startTripListener() {
       currentTripId = activeBooking.id;
 
       $("activePassenger").textContent = booking.passenger?.name || "Customer";
+      setCustomerContact(booking, "active");
       $("activeDistance").textContent = booking.distanceKm.toFixed(2) + " km";
       $("activeFare").textContent = "₹" + booking.fare.toFixed(2);
       $("activePickup").textContent = booking.pickup?.area || booking.pickup?.displayName || "Pickup location";
