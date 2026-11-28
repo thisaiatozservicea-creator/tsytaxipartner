@@ -160,7 +160,7 @@ button.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
 
 .trip-row:last-child{border-bottom:0}
 .customer-contact{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f7f7f7;border:1px solid #e8e8e8;border-radius:9px;padding:11px 12px;margin-top:10px}
-.customer-contact-info{min-width:0;display:flex;flex-direction:column;gap:4px}
+.customer-contact-info{min-width:0;display:flex;flex-direction:column;gap:4px;flex:1}
 .customer-contact-label{font-size:10px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.5px}
 .customer-contact-number{font-size:14px;font-weight:900;color:var(--ink);overflow-wrap:anywhere}
 .customer-call-btn{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--green);color:#fff;text-decoration:none;border-radius:8px;padding:10px 14px;font-size:12px;font-weight:900}
@@ -373,6 +373,8 @@ button.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
       </div>
       <div class="customer-contact">
         <div class="customer-contact-info">
+          <span class="customer-contact-label">Customer</span>
+          <span class="customer-contact-number" id="tripCustomerName">Customer name unavailable</span>
           <span class="customer-contact-label">Customer phone</span>
           <span class="customer-contact-number" id="tripCustomerPhone">Phone number unavailable</span>
         </div>
@@ -433,6 +435,8 @@ button.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
       </div>
       <div class="customer-contact">
         <div class="customer-contact-info">
+          <span class="customer-contact-label">Customer</span>
+          <span class="customer-contact-number" id="activeCustomerName">Customer name unavailable</span>
           <span class="customer-contact-label">Customer phone</span>
           <span class="customer-contact-number" id="activeCustomerPhone">Phone number unavailable</span>
         </div>
@@ -941,41 +945,38 @@ async function startPartnerListener() {
   }
 }
 
-// Read the customer phone from the booking data and show a working phone dialler link.
+// Show customer name + saved phone, and provide a working mobile dialler link.
 function setCustomerContact(booking, prefix) {
-  const passenger = booking.passenger || {};
-  const customer = booking.customer || {};
-  const rawPhone =
-    passenger.phone ||
-    passenger.phoneNumber ||
-    passenger.mobile ||
-    passenger.mobileNumber ||
-    passenger.contactNumber ||
-    customer.phone ||
-    customer.phoneNumber ||
-    customer.mobile ||
-    customer.mobileNumber ||
-    booking.customerPhone ||
-    booking.customerPhoneNumber ||
-    booking.passengerPhone ||
-    booking.phoneNumber ||
-    booking.phone ||
-    booking.mobileNumber ||
-    booking.mobile ||
-    "";
+  const passenger = booking?.passenger || {};
+  const customer = booking?.customer || {};
+  const rawName = passenger.name || passenger.fullName || passenger.customerName ||
+    customer.name || customer.fullName || customer.customerName ||
+    booking.customerName || booking.passengerName || booking.name || "";
+  const rawPhone = passenger.phone || passenger.phoneNumber || passenger.mobile ||
+    passenger.mobileNumber || passenger.contactNumber || passenger.telephone ||
+    customer.phone || customer.phoneNumber || customer.mobile || customer.mobileNumber ||
+    customer.contactNumber || customer.telephone || booking.customerPhone ||
+    booking.customerPhoneNumber || booking.passengerPhone || booking.passengerPhoneNumber ||
+    booking.phoneNumber || booking.phone || booking.mobileNumber || booking.mobile || "";
 
-  const phone = String(rawPhone).trim();
+  const name = String(rawName || "").trim();
+  const phone = String(rawPhone || "").trim();
+  const nameEl = $(prefix + "CustomerName");
   const phoneEl = $(prefix + "CustomerPhone");
   const callBtn = $(prefix + "CallBtn");
-  const digits = phone.replace(/\\D/g, "");
+  // Correct non-digit regex: previous added code used /\\D/ and failed validation.
+  const digits = phone.replace(/\D/g, "");
 
+  if (nameEl) nameEl.textContent = name || "Customer name unavailable";
   if (phoneEl) phoneEl.textContent = phone || "Phone number unavailable";
 
-  // Do not expose a call action for empty or clearly invalid phone values.
   if (callBtn) {
-    if (phone && digits.length >= 7) {
-      callBtn.href = "tel:" + phone.replace(/[^0-9+]/g, "");
+    if (digits.length >= 7) {
+      // Keep only digits and an optional leading plus in the tel URI.
+      const telNumber = phone.replace(/[^0-9+]/g, "");
+      callBtn.href = "tel:" + telNumber;
       callBtn.hidden = false;
+      callBtn.setAttribute("aria-label", "Call " + (name || "customer") + " at " + phone);
     } else {
       callBtn.removeAttribute("href");
       callBtn.hidden = true;
